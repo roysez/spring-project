@@ -7,18 +7,16 @@
 
     <http auto-config="true" >
         <intercept-url pattern="/" access="permitAll" />
-        <intercept-url pattern="/home" access="permitAll" />
         <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/dba**" access="hasRole('ADMIN') and hasRole('DBA')" />
         <form-login  login-page="/login"
                      username-parameter="ssoId"
                      password-parameter="password"
-                     authentication-failure-url="/login?error"
+                     authentication-failure-url="/account/login?error"
                      authentication-success-handler-ref="customSuccessHandler"
                     />
         <csrf/>
 
-        <access-denied-handler error-page="/WEB-INF/views/access_denied.jsp"></access-denied-handler>
+        <access-denied-handler error-page="/WEB-INF/views/account/access_denied.jsp"></access-denied-handler>
     </http>
 
     <authentication-manager >

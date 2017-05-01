@@ -1,28 +1,30 @@
-    <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Registration page</title>
-    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Home page</title>
+    <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.css' />" media="screen">
+    <link rel="stylesheet" href="<c:url value='/static/css/styles.css' />">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> </head>
 
 <body>
     <div class="navbar navbar-default navbar-static-top">
         <div class="container">
-            <div class="navbar-header"> <a href="../" class="navbar-brand">Project</a> </div>
+            <div class="navbar-header"> <a href="<c:url value="/"/>" class="navbar-brand">Project</a> </div>
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
                     <!--            Пункти меню-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="http://builtwithbootstrap.com/" class="not-active" target="_blank">Sign Up</a></li>
-                    <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">Already have an acount?</a></li>
+                    <li><a href="<c:url value="/account/signup"/>" >Sign Up</a></li>
+                    <li><a href="<c:url value="/account/login"/>" >Already have an account?</a></li>
                 </ul>
             </div>
         </div>
     </div>
+
     <div class="container">
        <legend>Welcome to our website, here you can see list of all users</legend>
         <table class="table table-striped table-hover ">

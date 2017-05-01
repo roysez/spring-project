@@ -6,7 +6,7 @@
 
     <mvc:annotation-driven/>
     <context:component-scan base-package="org.roysez.app.controller"/>
-    <mvc:view-controller path="/" view-name="welcome"/>
+    <mvc:view-controller path="/" view-name="home"/>
     <mvc:resources mapping="/static/**" location="/static/" />
 
 

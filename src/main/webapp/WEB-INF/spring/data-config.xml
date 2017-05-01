@@ -19,13 +19,13 @@
 
     <context:component-scan base-package="org.roysez.app.dao" />
 
-    <!-- Настройки бина dataSource будем хранить в отдельном файле -->
+    <!-- user property files -->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
           p:location="classpath:application.properties" />
 
 
-    <!-- Непосредственно бин dataSource -->
+    <!-- dataSource bean -->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${jdbc.driverClassName}"
@@ -33,7 +33,7 @@
           p:username="${jdbc.username}"
           p:password="${jdbc.password}" />
 
-    <!-- Настройки фабрики сессий Хибернейта -->
+    <!-- Configure hibernate factory -->
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -45,7 +45,7 @@
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="format_sql">${hibernate.format_sql}</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.connection.charSet">UTF-8</prop>
             </props>
         </property>
