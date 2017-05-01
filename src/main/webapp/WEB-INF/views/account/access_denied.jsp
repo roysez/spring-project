@@ -26,7 +26,7 @@
     </div>
 
     <div class="container">
-       <legend>Dear ${User}, access denied for you</legend>
+       <legend>Dear ${user}, access denied for you</legend>
         <br/>
         <a href="<c:url value="/" />">Go to home</a>
         <sec:authorize access="hasRole('USER') or hasRole('ADMIN') ">

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +19,18 @@
                     <!--            Пункти меню-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="<c:url value="/account/signup"/>" >Sign Up</a></li>
-                    <li><a href="<c:url value="/account/login"/>" >Already have an account?</a></li>
+                    <sec:authorize access="hasRole('USER') or hasRole('ADMIN') ">
+                        <li><a href="#">Hello, ${user}</a></li>
+                        <li><a href="/account/logout" >Logout</a></li>
+
+                    </sec:authorize>
+                    <sec:authorize access="isAnonymous()">
+                        <li><a href="<c:url value="/account/signup"/>" >Sign Up</a></li>
+                        <li><a href="<c:url value="/account/login"/>" >Already have an account?</a></li>
+                    </sec:authorize>
+
+
+
                 </ul>
             </div>
         </div>
@@ -43,43 +54,9 @@
                     <td>Column content</td>
                     <td>Column content</td>
                     <td>Column content</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
                     <td>Column content</td>
                 </tr>
-                <tr class="info">
-                    <td>3</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr class="success">
-                    <td>4</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr class="danger">
-                    <td>5</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr class="warning">
-                    <td>6</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr class="active">
-                    <td>7</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
+
             </tbody>
         </table>
     </div>

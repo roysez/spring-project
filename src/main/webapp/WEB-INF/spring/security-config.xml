@@ -8,15 +8,15 @@
     <http auto-config="true" >
         <intercept-url pattern="/" access="permitAll" />
         <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
-        <form-login  login-page="/login"
+        <form-login  login-page="/account/login"
                      username-parameter="ssoId"
                      password-parameter="password"
                      authentication-failure-url="/account/login?error"
                      authentication-success-handler-ref="customSuccessHandler"
                     />
         <csrf/>
-
-        <access-denied-handler error-page="/WEB-INF/views/account/access_denied.jsp"></access-denied-handler>
+        <access-denied-handler error-page="/account/access_denied"/>
+        <!--<access-denied-handler error-page="/WEB-INF/views/account/access_denied.jsp"></access-denied-handler>-->
     </http>
 
     <authentication-manager >
