@@ -47,7 +47,7 @@ public class User {
 
     @NotEmpty
     @Column(name = "ROLE",nullable = false)
-    private String UserRole = Role.ADMIN.getRole();
+    private String UserRole = Role.USER.getRole();
 
     public User() {
     }

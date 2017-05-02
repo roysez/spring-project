@@ -26,7 +26,7 @@
     </div>
 
     <div class="container">
-       <legend>Dear ${user}, access denied for you</legend>
+       <legend>Dear ${authenticatedUserName}, access denied for you</legend>
         <br/>
         <a href="<c:url value="/" />">Go to home</a>
         <sec:authorize access="hasRole('USER') or hasRole('ADMIN') ">
@@ -35,6 +35,12 @@
 
 
     </div>
+
+    <footer class="modal-footer" style="position: absolute;bottom: 0px;">
+        <div class="container">
+            <p class="text-muted">Project by Sergiy Balukh (Roysez)</p>
+        </div>
+    </footer>
 </body>
 
 </html>

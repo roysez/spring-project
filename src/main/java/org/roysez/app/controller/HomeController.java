@@ -19,7 +19,7 @@ public class HomeController {
     @RequestMapping(value = {"/","/home"},method = RequestMethod.GET)
     public String accessHomePage(Model model){
 
-        model.addAttribute("user",getAuthenticatedUserName());
+        model.addAttribute("authenticatedUserName",getAuthenticatedUserName());
         return "home";
     }
 

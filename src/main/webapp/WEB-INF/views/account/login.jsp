@@ -18,7 +18,7 @@
                     <!--            Пункти меню-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="http://builtwithbootstrap.com/" class="not-active" target="_blank">Sign Up</a></li>
+                    <li><a href="<c:url value="/account/signup"/> "  >Sign Up</a></li>
                 
                 </ul>
             </div>
@@ -68,6 +68,12 @@
         </form>
         </fieldset>
     </div>
+
+    <footer class="modal-footer" style="position: absolute;bottom: 0px;">
+        <div class="container">
+            <p class="text-muted">Project by Sergiy Balukh (Roysez)</p>
+        </div>
+    </footer>
 </body>
 
 </html>

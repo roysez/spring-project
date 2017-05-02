@@ -1,16 +1,22 @@
 package org.roysez.app.controller;
 
+import org.roysez.app.model.User;
+import org.roysez.app.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * Created by roysez on 01.05.2017.
@@ -21,11 +27,44 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/account")
 public class AccountController {
 
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/signup",method = RequestMethod.GET)
     public String home(Model model){
-
+        User user = new User();
+        model.addAttribute("user", user);
         return "account/register";
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String saveRegistration(@Valid User user,
+                                   BindingResult result, ModelMap model) {
+
+        if (result.hasErrors()) {
+            System.out.println("There are errors");
+            return "account/register";
+        }
+        if(userService.findBySso(user.getSsoId())!=null){
+            System.out.println("User with this username already exists");
+
+            return "redirect:/account/signup?error=duplicate";
+        }
+        if(user.getUserRole()!="USER")
+            user.setUserRole("USER");
+
+        userService.save(user);
+
+        System.out.println("First Name : "+user.getFirstName());
+        System.out.println("Last Name : "+user.getLastName());
+        System.out.println("SSO ID : "+user.getSsoId());
+        System.out.println("Password : "+user.getPassword());
+        System.out.println("Email : "+user.getEmail());
+        System.out.println("Checking UserRole...." + "\n" + "User Role: " + user.getUserRole());
+
+        model.remove("user");
+        model.addAttribute("successfulRegistration", "User " + user.getFirstName() + " has been registered successfully");
+        return "home";
     }
 
 
@@ -39,7 +78,7 @@ public class AccountController {
     @RequestMapping(value = "/access_denied",method = RequestMethod.GET)
     public String accessDeniedPage(Model model){
 
-        model.addAttribute("user",getAuthenticatedUserName());
+        model.addAttribute("authenticatedUserName",getAuthenticatedUserName());
         return "account/access_denied";
     }
 

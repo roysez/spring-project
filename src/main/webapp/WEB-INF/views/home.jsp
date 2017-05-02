@@ -20,7 +20,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <sec:authorize access="hasRole('USER') or hasRole('ADMIN') ">
-                        <li><a href="#">Hello, ${user}</a></li>
+                        <li><a href="#">Hello, ${authenticatedUserName}</a></li>
                         <li><a href="/account/logout" >Logout</a></li>
 
                     </sec:authorize>
@@ -37,6 +37,12 @@
     </div>
 
     <div class="container">
+        <c:if test="${successfulRegistration!=null}">
+            <div class="alert alert-success">
+                <p>${successfulRegistration}</p>
+            </div>
+        </c:if>
+
        <legend>Welcome to our website, here you can see list of all users</legend>
         <table class="table table-striped table-hover ">
             <thead>
@@ -60,6 +66,12 @@
             </tbody>
         </table>
     </div>
+
+    <footer class="modal-footer" style="position: absolute;bottom: 0px;">
+        <div class="container">
+            <p class="text-muted">Project by Sergiy Balukh (Roysez)</p>
+        </div>
+    </footer>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,35 +28,62 @@
     <div class="container">
         <fieldset>
             <legend>Create your account</legend>
-            <form class="form-horizontal">
+
+            <form:form method="POST" modelAttribute="user" class="form-horizontal">
+                <c:if test="${param.error == 'duplicate'}">
+                    <div class="alert alert-danger">
+                        <p>User with this username already exists.</p>
+                    </div>
+                </c:if>
                 <div class="form-group">
-                    <label for="username" class="col-lg-2 control-label">Username</label>
+                    <label for="ssoId" class="col-lg-2 control-label">Username</label>
                     <div class="col-lg-10">
-                        <input type="text" required class="form-control" id="username" placeholder="Username"> </div>
+                        <form:input type="text" path="ssoId" id="ssoId" class="form-control input-sm"/>
+                        <%--<input type="text" required class="form-control" id="username" placeholder="Username"> --%>
+                        <div class="has-error">
+                            <form:errors path="ssoId" class="help-inline"/>
+                        </div>
+                    </div>
                 </div>
               
                 <div class="form-group">
                     <label for="password" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
-                        <input type="password" required class="form-control" id="password" placeholder="Password"> </div>
+                        <form:input type="password" path="password" id="password" class="form-control input-sm" />
+                        <div class="has-error">
+                            <form:errors path="password" class="help-inline"/>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="firstName" class="col-lg-2 control-label">First Name</label>
                     <div class="col-lg-10">
-                        <input type="text" required class="form-control" id="firstName" placeholder="First Name"> </div>
+                        <form:input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
+                        <div class="has-error">
+                            <form:errors path="firstName" class="help-inline"/>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="lastName" class="col-lg-2 control-label">Last Name</label>
                     <div class="col-lg-10">
-                        <input type="text" required class="form-control" id="lastName" placeholder="Last Name"> </div>
+                        <form:input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
+                        <div class="has-error">
+                            <form:errors path="lastName" class="help-inline"/>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="email" class="col-lg-2 control-label">Email</label>
                     <div class="col-lg-10">
-                        <input type="text" required class="form-control" id="email" placeholder="Email"> </div>
+                        <form:input type="text" path="email" id="email" class="form-control input-sm"/>
+                        <div class="has-error">
+                            <form:errors path="email" class="help-inline"/>
+                        </div>
+                    </div>
                 </div>
                 
                 
@@ -69,9 +97,15 @@
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>
-            </form>
+            </form:form>
         </fieldset>
     </div>
+
+    <footer class="modal-footer" style="position: absolute;bottom: 0px;">
+        <div class="container">
+            <p class="text-muted">Project by Sergiy Balukh (Roysez)</p>
+        </div>
+    </footer>
 </body>
 
 </html>
