@@ -30,17 +30,13 @@
             <legend>Create your account</legend>
 
             <form:form method="POST" modelAttribute="user" class="form-horizontal">
-                <c:if test="${param.error == 'duplicate'}">
-                    <div class="alert alert-danger">
-                        <p>User with this username already exists.</p>
-                    </div>
-                </c:if>
+
                 <div class="form-group">
                     <label for="ssoId" class="col-lg-2 control-label">Username</label>
                     <div class="col-lg-10">
                         <form:input type="text" path="ssoId" id="ssoId" class="form-control input-sm"/>
                         <%--<input type="text" required class="form-control" id="username" placeholder="Username"> --%>
-                        <div class="has-error">
+                        <div class="has-error ">
                             <form:errors path="ssoId" class="help-inline"/>
                         </div>
                     </div>
@@ -50,7 +46,7 @@
                     <label for="password" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
                         <form:input type="password" path="password" id="password" class="form-control input-sm" />
-                        <div class="has-error">
+                        <div class="has-error ">
                             <form:errors path="password" class="help-inline"/>
                         </div>
                     </div>
@@ -90,10 +86,10 @@
                 
                 <div class="form-group">
                     <div class="col-lg-10">
-                        <button type="reset" href="<c:url value="/account/login"/>" class="btn btn-default">You already have an account?</button>
+                        <a type="reset" href="<c:url value="/account/login"/>" class="btn btn-default">You already have an account?</a>
                     </div>
                     <div class="col-lg-2">
-                        <button type="reset" class="btn btn-danger">Cancel</button>
+                        <a type="reset" href="<c:url value="/"/>" class="btn btn-danger">Cancel</a>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>

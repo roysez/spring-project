@@ -19,22 +19,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
+
     @Column(name = "SSO_ID",unique = true,nullable = false)
     private String ssoId;
-    @NotEmpty
+
     @Column(name = "PASSWORD",nullable = false)
     private String password;
-    @NotEmpty
+
     @Column(name = "FIRST_NAME",nullable = false)
     private String firstName;
-    @NotEmpty
+
     @Column(name = "LAST_NAME",nullable = false)
     private String lastName;
-    @NotEmpty
+
     @Column(name = "EMAIL",nullable = false)
     private String email;
-    @NotEmpty
+
     @Column(name = "STATE",nullable = false)
     private String state = State.ACTIVE.getState();
 

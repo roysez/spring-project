@@ -58,10 +58,10 @@
                 
                 <div class="form-group">
                     <div class="col-lg-10">
-                        <button type="reset" class="btn btn-default">Create new account?</button>
+                        <a type="reset" href="<c:url value="/account/signup"/>" class="btn btn-default">Create new account?</a>
                     </div>
                     <div class="col-lg-2">
-                        <button type="reset" class="btn btn-danger">Cancel</button>
+                        <a type="reset" href="<c:url value="/"/>" class="btn btn-danger">Cancel</a>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>
