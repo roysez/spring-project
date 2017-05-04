@@ -19,9 +19,10 @@
                     <!--            Пункти меню-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <sec:authorize access="hasRole('USER') or hasRole('ADMIN') ">
-                        <li><a href="#">Hello, ${authenticatedUserName}</a></li>
-                        <li><a href="/account/logout" >Logout</a></li>
+                    <sec:authorize access="isAuthenticated()">
+
+                        <li><a href="/users/<sec:authentication property="principal.username"/>">Hello,<sec:authentication property="principal.username"/></a></li>
+                        <li><a href="/account/logout">Logout</a></li>
 
                     </sec:authorize>
                     <sec:authorize access="isAnonymous()">
@@ -55,17 +56,25 @@
                 </tr>
             </thead>
             <tbody>
-            <c:forEach items="${listOfAllUsers}" var="item">
             <%
                 Integer counter = 0;
                 counter++;
             %>
+            <c:forEach items="${listOfAllUsers}" var="item">
+                <tr class='clickable-row' data-href='<c:url value="/users/${item.getSsoId()}"/>' >
                     <td><%=counter%></td>
-                    <td>${item.getSsoId()}</td>
+                    <td>
+                        <a href="<c:url value="/users/${item.getSsoId()}"/>" >
+                        ${item.getSsoId()}
+                        </a>
+
+                    </td>
                     <td>${item.getFirstName()}</td>
                     <td>${item.getLastName()}</td>
                     <td>${item.getEmail()}</td>
                 </tr>
+
+                <%counter++;%>
             </c:forEach>
             </tbody>
         </table>
