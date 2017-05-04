@@ -65,7 +65,7 @@ public class AccountController {
 
         model.remove("user");
         model.addAttribute("successfulRegistration", "User " + user.getSsoId() + " has been registered successfully");
-        return "home";
+        return "redirect:/home";
     }
 
 
@@ -73,14 +73,6 @@ public class AccountController {
     public String login(Model model){
 
         return "account/login";
-    }
-
-
-    @RequestMapping(value = "/access_denied",method = RequestMethod.GET)
-    public String accessDeniedPage(Model model){
-
-        model.addAttribute("authenticatedUserName",getAuthenticatedUserName());
-        return "account/access_denied";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
@@ -91,6 +83,18 @@ public class AccountController {
         }
         return "redirect:/account/login?logout";
     }
+
+
+
+
+    @RequestMapping(value = "/access_denied",method = RequestMethod.GET)
+    public String accessDeniedPage(Model model){
+
+        model.addAttribute("authenticatedUserName",getAuthenticatedUserName());
+        return "account/access_denied";
+    }
+
+
 
     private String getAuthenticatedUserName(){
         String userName = null;

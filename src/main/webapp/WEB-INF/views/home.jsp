@@ -47,7 +47,7 @@
         <table class="table table-striped table-hover ">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>#id</th>
                     <th>Username</th>
                     <th>First Name</th>
                     <th>Last Name</th>
@@ -55,14 +55,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
+            <c:forEach items="${listOfAllUsers}" var="item">
+            <%
+                Integer counter = 0;
+                counter++;
+            %>
+                    <td><%=counter%></td>
+                    <td>${item.getSsoId()}</td>
+                    <td>${item.getFirstName()}</td>
+                    <td>${item.getLastName()}</td>
+                    <td>${item.getEmail()}</td>
                 </tr>
-
+            </c:forEach>
             </tbody>
         </table>
     </div>

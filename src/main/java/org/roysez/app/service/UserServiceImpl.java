@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by roysez on 28.04.2017.
  * 0:10
@@ -32,5 +34,9 @@ public class UserServiceImpl implements UserService {
 
     public User findById(int id) {
         return userDao.findById(id);
+    }
+
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 }

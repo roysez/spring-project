@@ -5,6 +5,9 @@ import org.hibernate.criterion.Restrictions;
 import org.roysez.app.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by roysez on 28.04.2017.
  * 0:02
@@ -26,5 +29,12 @@ public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao {
         criteria.add(Restrictions.eq("ssoId",sso));
         User user = (User) criteria.uniqueResult();
         return user;
+    }
+
+    public List<User> findAll() {
+        Criteria criteria = createEntityCriteria();
+        List<User> listOfAllUsers =  new ArrayList<User>();
+        listOfAllUsers = criteria.list();
+        return  listOfAllUsers;
     }
 }
