@@ -15,4 +15,5 @@ public interface UserDao {
     User findById(int id);
     User findBySSO(String sso);
     List<User> findAll();
+    void deleteUser(User user);
 }

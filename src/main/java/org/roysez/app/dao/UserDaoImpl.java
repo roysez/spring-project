@@ -37,4 +37,8 @@ public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao {
         listOfAllUsers = criteria.list();
         return  listOfAllUsers;
     }
+
+    public void deleteUser(User user) {
+        delete(user);
+    }
 }

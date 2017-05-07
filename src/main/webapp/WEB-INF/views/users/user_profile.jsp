@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.css' />" media="screen">
     <link rel="stylesheet" href="<c:url value='/static/css/styles.css' />">
     <link rel="stylesheet" href="<c:url value='/static/css/user_profile.css' />">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="<c:url value="/static/js/custom.js"/> "></script>
 </head>
 <body>
 <div class="navbar navbar-default navbar-static-top">
@@ -22,11 +24,12 @@
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav">
                 <!--            Пункти меню-->
+                <li><a href="<c:url value="/users/"/>">Users</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="isAuthenticated()">
                     <li><a href="#">Hello,<sec:authentication property="principal.username"/></a></li>
-                    <li><a href="/account/logout">Logout</a></li>
+                    <li><a href="<c:url value="/account/logout"/> ">Logout</a></li>
 
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
@@ -96,10 +99,17 @@
         </div>
         <div class="panel-footer">
                         <sec:authorize access="hasRole('ADMIN')">
-                            <span class="pull-right">
+                            <span class="pull-right" style="margin-right: 20px; ">
+                                <a onclick="deleteUser('${user.getSsoId()}')"
+                                        data-original-title="Delete this user"
+                                   data-toggle="tooltip" type="button"
+                                   class="btn btn-sm btn-danger btn-delete-user"><i class="glyphicon glyphicon-edit"></i> Delete user</a>
+                            </span>
+
+                            <span class="pull-right" style="margin-right: 20px; ">
                                 <a href="#" data-original-title="Edit this user"
                                data-toggle="tooltip" type="button"
-                               class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                               class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit profile</a>
 
                             </span>
                         </sec:authorize>

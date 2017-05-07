@@ -16,13 +16,13 @@
             <div class="navbar-header"> <a href="<c:url value="/"/>" class="navbar-brand">Project</a> </div>
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
-                    <li><a href="<c:url value="/users/"/>">Users</a></li>
+                    <!-- Пункти меню-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <sec:authorize access="isAuthenticated()">
 
                         <li><a href="/users/<sec:authentication property="principal.username"/>">Hello,<sec:authentication property="principal.username"/></a></li>
-                        <li><a href="<c:url value="/account/logout"/>">Logout</a></li>
+                        <li><a href="<c:url value="/account/logout"/>" >Logout</a></li>
 
                     </sec:authorize>
                     <sec:authorize access="isAnonymous()">
@@ -39,40 +39,40 @@
 
     <div class="container">
 
-       <legend>Welcome to our website</legend>
-        <%--<table class="table table-striped table-hover ">--%>
-            <%--<thead>--%>
-                <%--<tr>--%>
-                    <%--<th>#id</th>--%>
-                    <%--<th>Username</th>--%>
-                    <%--<th>First Name</th>--%>
-                    <%--<th>Last Name</th>--%>
-                    <%--<th>Email</th>--%>
-                <%--</tr>--%>
-            <%--</thead>--%>
-            <%--<tbody>--%>
-            <%--<%--%>
-                <%--Integer counter = 0;--%>
-                <%--counter++;--%>
-            <%--%>--%>
-            <%--<c:forEach items="${listOfAllUsers}" var="item">--%>
-                <%--<tr class='clickable-row' data-href='<c:url value="/users/${item.getSsoId()}"/>' >--%>
-                    <%--<td><%=counter%></td>--%>
-                    <%--<td>--%>
-                        <%--<a href="<c:url value="/users/${item.getSsoId()}"/>" >--%>
-                        <%--${item.getSsoId()}--%>
-                        <%--</a>--%>
+       <legend>Welcome to our website, here you can see list of all users</legend>
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>#id</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+            <%
+                Integer counter = 0;
+                counter++;
+            %>
+            <c:forEach items="${listOfAllUsers}" var="item">
+                <tr class='clickable-row' data-href='<c:url value="/users/${item.getSsoId()}"/>' >
+                    <td><%=counter%></td>
+                    <td>
+                        <a href="<c:url value="/users/${item.getSsoId()}"/>" >
+                        ${item.getSsoId()}
+                        </a>
 
-                    <%--</td>--%>
-                    <%--<td>${item.getFirstName()}</td>--%>
-                    <%--<td>${item.getLastName()}</td>--%>
-                    <%--<td>${item.getEmail()}</td>--%>
-                <%--</tr>--%>
+                    </td>
+                    <td>${item.getFirstName()}</td>
+                    <td>${item.getLastName()}</td>
+                    <td>${item.getEmail()}</td>
+                </tr>
 
-                <%--<%counter++;%>--%>
-            <%--</c:forEach>--%>
-            <%--</tbody>--%>
-        <%--</table>--%>
+                <%counter++;%>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
 
     <footer class="modal-footer" style="position: absolute;bottom: 0px;">

@@ -14,7 +14,7 @@
                      authentication-failure-url="/account/login?error"
                      authentication-success-handler-ref="customSuccessHandler"
                     />
-        <csrf/>
+        <csrf disabled="true"/>
         <access-denied-handler error-page="/account/access_denied"/>
         <!--<access-denied-handler error-page="/WEB-INF/views/account/access_denied.jsp"></access-denied-handler>-->
     </http>

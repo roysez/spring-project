@@ -17,6 +17,7 @@
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
                     <!--            Пункти меню-->
+                    <li><a href="<c:url value="/users/"/>">Users</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 

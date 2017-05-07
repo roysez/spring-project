@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +27,10 @@ import javax.servlet.http.HttpServletResponse;
 public class AccountController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    UserValidator userValidator;
+    private UserValidator userValidator;
 
     @RequestMapping(value = "/signup",method = RequestMethod.GET)
     public String home(Model model){
@@ -42,7 +41,7 @@ public class AccountController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String saveRegistration( User user,
-                                   BindingResult result, ModelMap model) {
+                                   BindingResult result, Model model) {
 
          userValidator.validate(user,result);
 
@@ -63,9 +62,9 @@ public class AccountController {
         System.out.println("Email : "+user.getEmail());
         System.out.println("Checking UserRole...." + "\n" + "User Role: " + user.getUserRole());
 
-        model.remove("user");
+        model.addAttribute("user",null);
         model.addAttribute("successfulRegistration", "User " + user.getSsoId() + " has been registered successfully");
-        return "redirect:/home";
+        return "account/login";
     }
 
 
