@@ -16,6 +16,7 @@
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
                     <!--            Пункти меню-->
+                    <li><a href="<c:url value="/users/"/>">Users</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="<c:url value="/account/signup"/> "  >Sign Up</a></li>
@@ -29,6 +30,11 @@
             <legend>Login to your account</legend>
             <c:url var="loginUrl" value="/login" />
             <form action="${loginUrl}" method="post" class="form-horizontal">
+                <c:if test="${successfulRegistration!=null}">
+                    <div class="alert alert-success">
+                        <p>${successfulRegistration}</p>
+                    </div>
+                </c:if>
 
                 <c:if test="${param.error != null}">
                 <div class="alert alert-danger">

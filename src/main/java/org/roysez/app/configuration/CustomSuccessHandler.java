@@ -2,6 +2,7 @@ package org.roysez.app.configuration;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -39,6 +40,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     protected String determineTargetUrl(Authentication authentication){
         String url="";
+        String userName = ((UserDetails)authentication.getPrincipal()).getUsername();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         List<String> roles =  new ArrayList<String>();
@@ -49,7 +51,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (isAdmin(roles)) {
             url = "/home";
         } else if (isUser(roles)) {
-            url = "/home";
+            url = "/users/"+userName;
         } else {
             url="/account/access_denied";
         }

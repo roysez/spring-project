@@ -17,6 +17,7 @@
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
                     <!--            Пункти меню-->
+                    <li><a href="<c:url value="/users/"/>">Users</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
@@ -26,7 +27,14 @@
     </div>
 
     <div class="container">
-       <legend>Dear ${authenticatedUserName}, access denied for you</legend>
+       <legend>Dear
+           <sec:authorize access="isAuthenticated()">
+           <sec:authentication property="principal.username"/>
+           </sec:authorize>
+           <sec:authorize access="isAnonymous()">
+               user
+           </sec:authorize>
+           , access denied for you</legend>
         <br/>
         <a href="<c:url value="/" />">Go to home</a>
         <sec:authorize access="hasRole('USER') or hasRole('ADMIN') ">
