@@ -41,4 +41,10 @@ public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao {
     public void deleteUser(User user) {
         delete(user);
     }
+
+    public User findByEmail(String email){
+        Criteria criteria = createEntityCriteria();
+        User user = (User)criteria.add(Restrictions.eq("email",email)).uniqueResult();
+        return user;
+    }
 }

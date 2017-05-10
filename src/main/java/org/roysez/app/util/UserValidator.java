@@ -36,7 +36,9 @@ public class UserValidator implements Validator {
         if(userService.findBySso(userToValidate.getSsoId())!=null){
             errors.rejectValue("ssoId", "ssoId.duplicate", "User with this username already exist, please pick another one");
         }
-
+        if(userService.findByEmail(userToValidate.getEmail())!=null){
+            errors.rejectValue("email", "email.duplicate", "This email is already in use ");
+        }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Password must not be empty.");
         if(userToValidate.getPassword().length()<6 || userToValidate.getPassword().length()>12){
             errors.rejectValue("password","password.incorrect","Password length must be more than 6 and less than 12 symbols");

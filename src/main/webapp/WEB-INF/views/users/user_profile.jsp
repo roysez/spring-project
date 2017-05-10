@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.css' />" media="screen">
     <link rel="stylesheet" href="<c:url value='/static/css/styles.css' />">
     <link rel="stylesheet" href="<c:url value='/static/css/user_profile.css' />">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="<c:url value="/static/js/custom.js"/> "></script>
+    <script src="<c:url value="/static/js/jquery-3.2.1.min.js"/>"></script>
+    <script src="<c:url value="/static/js/user_profile.js"/> "></script>
 </head>
 <body>
 <div class="navbar navbar-default navbar-static-top">
@@ -28,7 +28,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="isAuthenticated()">
-                    <li><a href="#">Hello,<sec:authentication property="principal.username"/></a></li>
+                    <li><a href="/users/<sec:authentication property="principal.username"/>">Hello,<sec:authentication property="principal.username"/></a></li>
                     <li><a href="<c:url value="/account/logout"/> ">Logout</a></li>
 
                 </sec:authorize>
@@ -67,37 +67,45 @@
 
 
                 <div class=" col-md-9 col-lg-9 ">
+                    <form onsubmit="" >
                     <table class="table table-user-information">
                         <tbody>
 
 
                         <tr>
-                            <td>Username</td>
-                            <td>${user.getSsoId()}</td>
+                            <td>Username:</td>
+                            <td class="edit-off" id="origin-username">${user.getSsoId()}</td>
+                            <td class="edit-on">  <input type="text" required class="form-control" id="username" name="ssoId" value="${user.getSsoId()}"></td>
                         </tr>
                         <tr>
-                            <td>First name</td>
-                            <td>${user.getFirstName()}</td>
+                            <td>FirstName:</td>
+                            <td class="edit-off">${user.getFirstName()}</td>
+                            <td class="edit-on">  <input type="text" required class="form-control" id="firstName" name="firstName" value="${user.getFirstName()}"></td>
                         </tr>
                         <tr>
-                            <td>Last name</td>
-                            <td>${user.getLastName()}</td>
+                            <td>LastName:</td>
+                            <td class="edit-off">${user.getLastName()}</td>
+                            <td class="edit-on">  <input type="text" required class="form-control" id="lastName" name="lastName" value="${user.getLastName()}"></td>
                         </tr>
 
                         <tr>
-                            <td>Email</td>
-                            <td>${user.getEmail()}</td>
+                            <td>Email:</td>
+                            <td class="edit-off">${user.getEmail()}</td>
+                            <td class="edit-on">  <input type="text" required class="form-control" id="email" name="email" value="${user.getEmail()}"></td>
                         </tr>
 
 
                         </tbody>
                     </table>
-
+                        <button type="submit" class="edit-on btn btn-success">Submit</button>
+                        <button  type="reset" onclick="cancelEdit()" class="edit-on btn btn-danger">Cancel</button>
+                    </form>
 
                 </div>
             </div>
         </div>
         <div class="panel-footer">
+
                         <sec:authorize access="hasRole('ADMIN')">
                             <span class="pull-right" style="margin-right: 20px; ">
                                 <a onclick="deleteUser('${user.getSsoId()}')"
@@ -106,8 +114,8 @@
                                    class="btn btn-sm btn-danger btn-delete-user"><i class="glyphicon glyphicon-edit"></i> Delete user</a>
                             </span>
 
-                            <span class="pull-right" style="margin-right: 20px; ">
-                                <a href="#" data-original-title="Edit this user"
+                            <span class="pull-right edit-off" style="margin-right: 20px; ">
+                                <a onclick="editUser()"  data-original-title="Edit this user"
                                data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit profile</a>
 

@@ -13,8 +13,10 @@ public interface UserService {
 
     User findBySso(String sso);
     User findById(int id);
-    void save(User user);
+    User findByEmail(String email);
     List<User> findAll();
+    void save(User user);
     void deleteUser(User user);
+
 
 }

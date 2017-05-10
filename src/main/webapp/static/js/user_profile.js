@@ -1,9 +1,7 @@
 /**
  * Created by roysez on 05.05.2017.
  */
-$(document).ready(function () {
 
-});
 
     function deleteUser(username) {
         $.ajax({
@@ -24,3 +22,19 @@ $(document).ready(function () {
         });
 
     }
+
+
+    function editUser() {
+        // console.log($('#firstName').val());
+        // console.log($('#origin-username').text());
+        $('.edit-off').css('display','none');
+        $('.edit-on').css('display','block');
+        $('button.edit-on').css('display','inline-block');
+    }
+
+    function cancelEdit() {
+        $('.edit-off').css('display','inline-block');
+        $('.edit-on').css('display','none');
+
+    }
+

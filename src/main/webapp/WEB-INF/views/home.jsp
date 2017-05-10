@@ -40,39 +40,7 @@
     <div class="container">
 
        <legend>Welcome to our website</legend>
-        <%--<table class="table table-striped table-hover ">--%>
-            <%--<thead>--%>
-                <%--<tr>--%>
-                    <%--<th>#id</th>--%>
-                    <%--<th>Username</th>--%>
-                    <%--<th>First Name</th>--%>
-                    <%--<th>Last Name</th>--%>
-                    <%--<th>Email</th>--%>
-                <%--</tr>--%>
-            <%--</thead>--%>
-            <%--<tbody>--%>
-            <%--<%--%>
-                <%--Integer counter = 0;--%>
-                <%--counter++;--%>
-            <%--%>--%>
-            <%--<c:forEach items="${listOfAllUsers}" var="item">--%>
-                <%--<tr class='clickable-row' data-href='<c:url value="/users/${item.getSsoId()}"/>' >--%>
-                    <%--<td><%=counter%></td>--%>
-                    <%--<td>--%>
-                        <%--<a href="<c:url value="/users/${item.getSsoId()}"/>" >--%>
-                        <%--${item.getSsoId()}--%>
-                        <%--</a>--%>
 
-                    <%--</td>--%>
-                    <%--<td>${item.getFirstName()}</td>--%>
-                    <%--<td>${item.getLastName()}</td>--%>
-                    <%--<td>${item.getEmail()}</td>--%>
-                <%--</tr>--%>
-
-                <%--<%counter++;%>--%>
-            <%--</c:forEach>--%>
-            <%--</tbody>--%>
-        <%--</table>--%>
     </div>
 
     <footer class="modal-footer" style="position: absolute;bottom: 0px;">
