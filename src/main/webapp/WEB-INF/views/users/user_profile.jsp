@@ -50,6 +50,9 @@
     </div>
     </c:if>
     <c:if test="${errorUserNotFound==null}">
+        <div class="alert-block">
+
+        </div>
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">${user.getSsoId()}</h3>
@@ -67,7 +70,7 @@
 
 
                 <div class=" col-md-9 col-lg-9 ">
-                    <form onsubmit="" >
+
                     <table class="table table-user-information">
                         <tbody>
 
@@ -79,34 +82,33 @@
                         </tr>
                         <tr>
                             <td>FirstName:</td>
-                            <td class="edit-off">${user.getFirstName()}</td>
+                            <td class="edit-off" id="origin-firstName">${user.getFirstName()}</td>
                             <td class="edit-on">  <input type="text" required class="form-control" id="firstName" name="firstName" value="${user.getFirstName()}"></td>
                         </tr>
                         <tr>
                             <td>LastName:</td>
-                            <td class="edit-off">${user.getLastName()}</td>
+                            <td class="edit-off" id="origin-lastName">${user.getLastName()}</td>
                             <td class="edit-on">  <input type="text" required class="form-control" id="lastName" name="lastName" value="${user.getLastName()}"></td>
                         </tr>
 
                         <tr>
                             <td>Email:</td>
-                            <td class="edit-off">${user.getEmail()}</td>
+                            <td class="edit-off" id="origin-email">${user.getEmail()}</td>
                             <td class="edit-on">  <input type="text" required class="form-control" id="email" name="email" value="${user.getEmail()}"></td>
                         </tr>
 
 
                         </tbody>
                     </table>
-                        <button type="submit" class="edit-on btn btn-success">Submit</button>
-                        <button  type="reset" onclick="cancelEdit()" class="edit-on btn btn-danger">Cancel</button>
-                    </form>
-
-                </div>
+                        </div>
             </div>
         </div>
         <div class="panel-footer">
 
                         <sec:authorize access="hasRole('ADMIN')">
+                            <button  type="reset" onclick="cancelEdit()" class="edit-on btn btn-danger">Cancel</button>
+                            <button  onclick="submitEditUser('${user.getSsoId()}')" class="edit-on btn btn-success">Submit</button>
+
                             <span class="pull-right" style="margin-right: 20px; ">
                                 <a onclick="deleteUser('${user.getSsoId()}')"
                                         data-original-title="Delete this user"

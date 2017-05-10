@@ -1,5 +1,6 @@
 package org.roysez.app.configuration;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,12 +17,16 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * Used to handle a successful user authentication,
+ * extends {@code SimpleUrlAuthenticationSuccessHandler},
+ * which can be configured with a default URL which users should be sent to upon successful authentication.
+ *
  * Created by roysez on 28.04.2017.
  * 2:12
  * Package : org.roysez.app.configuration
  */
 
-
+@Configuration("customSuccessHandler")
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -66,14 +71,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return redirectStrategy;
     }
 
-    private boolean isUser(List<String> roles) {
-        return roles.contains("ROLE_USER");
+    private boolean isUser(List<String> roles) { return roles.contains("ROLE_USER"); }
 
-    }
-
-    private boolean isAdmin(List<String> roles) {
-        return roles.contains("ROLE_ADMIN");
-    }
+    private boolean isAdmin(List<String> roles) { return roles.contains("ROLE_ADMIN"); }
 
 
 }

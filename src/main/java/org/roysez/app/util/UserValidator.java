@@ -40,8 +40,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "email.duplicate", "This email is already in use ");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Password must not be empty.");
-        if(userToValidate.getPassword().length()<6 || userToValidate.getPassword().length()>12){
-            errors.rejectValue("password","password.incorrect","Password length must be more than 6 and less than 12 symbols");
+        if(userToValidate.getPassword().length()<6 ){
+            errors.rejectValue("password","password.incorrect","Password length must be more than 6 ");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.empty", "First name must not be empty.");

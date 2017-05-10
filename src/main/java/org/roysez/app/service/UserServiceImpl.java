@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
     }
+
+    public void update(User user){
+            userDao.updateUser(user);
+    }
+
     public User findBySso(String sso) {
         return userDao.findBySSO(sso);
     }

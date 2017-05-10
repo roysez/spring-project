@@ -20,6 +20,10 @@ public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao {
         persist(user);
     }
 
+    public void updateUser(User user){
+        update(user);
+    }
+
     public User findById(int id) {
         return getByKey(id);
     }
