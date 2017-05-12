@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,6 +31,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+//    @Autowired
+//    private UserValidator userValidator;
+
+    /* Return page with list of all user */
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String getAllUsers(Model model){
         List<User> listOfAllUsers = userService.findAll();
@@ -50,27 +55,43 @@ public class UserController {
         return "users/user_profile";
     }
 
-    //NOT WORKING
+    @RequestMapping(value = "/{ssoId}",method = RequestMethod.PUT)
+    public ResponseEntity editUserProfile(Model model,@PathVariable("ssoId") String requestSsoId,
+                                          @RequestBody User newUserInformation){
+        if(!checkForAuthority(Role.ADMIN)) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        User user = userService.findBySso(requestSsoId);
+        if (user == null) {
+            System.out.println("Unable to edit. User with id " + requestSsoId + " not found");
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        user.setSsoId(newUserInformation.getSsoId());
+        user.setFirstName(newUserInformation.getFirstName());
+        user.setLastName(newUserInformation.getLastName());
+        user.setEmail(newUserInformation.getEmail());
+
+//        userValidator.validate(user,bindingResult);
+//
+//        if (bindingResult.hasErrors()) {
+//            return  new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+
+        userService.update(user);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{ssoId}",method = RequestMethod.DELETE)
     public ResponseEntity deleteUserProfile(@PathVariable String ssoId){
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Boolean isAllowed = false;
 
-        if(auth==null){
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if(!checkForAuthority(Role.ADMIN)) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
-        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ROLE_"+ Role.ADMIN)) {
-                isAllowed = true;
-                break;
-            }
-        }
-        if (!isAllowed){
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
 
         User user = null;
         user = userService.findBySso(ssoId);
@@ -82,6 +103,26 @@ public class UserController {
         userService.deleteUser(user);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    /*
+    * Check authenticated user for having role which was requested
+    */
+    private Boolean checkForAuthority(Role roleToCheck){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(auth==null){
+            return false;
+        }
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals("ROLE_"+ roleToCheck)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

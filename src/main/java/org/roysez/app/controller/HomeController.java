@@ -28,10 +28,6 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping(value = "/admin",method = RequestMethod.GET)
-    public String accessAdmin(Model model){
-        return "admin";
-    }
 
      private String getAuthenticatedUserName(){
         String userName = null;
