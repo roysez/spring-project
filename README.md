@@ -34,9 +34,9 @@ Main functionality, which will be implemented
         <tr>
             <td>
                 <ul>
-                    <li>account</li>
-                    <li>login</li>
-                    <li>register</li>
+                    <li>account ✓</li>
+                    <li>login ✓</li>
+                    <li>register ✓</li>
                     <li>post articles</li>
                     <li>send message to admin</li>
                 </ul>
@@ -45,12 +45,12 @@ Main functionality, which will be implemented
             </td>
             <td>
                 <ul>
-                    <li>account</li>
-                    <li>login</li>
-                    <li>register</li>
+                    <li>account ✓</li>
+                    <li>login ✓</li>
+                    <li>register ✓</li>
                     <li>view/edit/delete articles</li>
                     <li>callback</li>
-                    <li>edit/delete accounts</li>
+                    <li>edit/delete accounts ✓</li>
                 </ul>
             </td>
             <td></td>
@@ -71,8 +71,8 @@ Main functionality, which will be implemented
     <tr>
         <td>
         <ul>
-            <li>authorization</li>
-            <li>authentication</li>
+            <li>authorization ✓</li>
+            <li>authentication ✓</li>
             <li>user roles</li>
             <li>SSL</li>
             <li>locked parts for users</li>
@@ -89,7 +89,7 @@ Main functionality, which will be implemented
         <td></td>
          <td>
         <ul>
-            <li>adaptive</li>
+            <li>adaptive ✓</li>
             <li>localization</li>
             <li>cross-browser ing</li>
         </ul>
@@ -126,9 +126,9 @@ Main functionality, which will be implemented
         <td></td>
         <td>
         <ul>
-            <li>Ajax</li>
-            <li>Handle errors</li>
-            <li>session</li>
+            <li>Ajax ✓</li>
+            <li>Handle errors ✓</li>
+            <li>session ✓</li>
         </ul>
         </td>
         <td></td>
@@ -136,4 +136,4 @@ Main functionality, which will be implemented
 </table>
 
 <hr>
-<i>(c) Roysez</i>
+<i>© Roysez</i>
