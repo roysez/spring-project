@@ -31,9 +31,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private UserValidator userValidator;
-
     /* Return page with list of all user */
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String getAllUsers(Model model){
@@ -72,12 +69,6 @@ public class UserController {
         user.setFirstName(newUserInformation.getFirstName());
         user.setLastName(newUserInformation.getLastName());
         user.setEmail(newUserInformation.getEmail());
-
-//        userValidator.validate(user,bindingResult);
-//
-//        if (bindingResult.hasErrors()) {
-//            return  new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        }
 
         userService.update(user);
 

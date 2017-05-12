@@ -1,5 +1,6 @@
 package org.roysez.app.controller;
 
+import org.roysez.app.model.Article;
 import org.roysez.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,8 +24,8 @@ public class HomeController {
 
     @RequestMapping(value = {"/","/home"},method = RequestMethod.GET)
     public String accessHomePage(Model model){
-
         model.addAttribute("authenticatedUserName",getAuthenticatedUserName());
+        model.addAttribute("article",new Article());
         return "home";
     }
 

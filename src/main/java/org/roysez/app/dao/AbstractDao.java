@@ -9,6 +9,10 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
 /**
+ * An abstract base class for Hibernate DAO classes.
+ * @Param 'PK' the type of primary key
+ * @Param 'T' the class which this DAO manage
+ *
  * Created by roysez on 27.04.2017.
  * 23:50
  * Package : org.roysez.app.dao

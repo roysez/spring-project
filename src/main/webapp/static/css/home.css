@@ -1,0 +1,12 @@
+.article-form {
+    display: none;
+}
+
+#btn-post-article {
+    position: inherit;
+    top:0px;
+}
+
+legend {
+    width: 80%;
+}

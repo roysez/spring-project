@@ -73,6 +73,7 @@ Main functionality, which will be implemented
         <ul>
             <li>authorization ✓</li>
             <li>authentication ✓</li>
+            <li>validation ✓</li>
             <li>user roles</li>
             <li>SSL</li>
             <li>locked parts for users</li>
