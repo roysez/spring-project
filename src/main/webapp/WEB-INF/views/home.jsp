@@ -50,7 +50,7 @@
 
 
 
-                <form:form action="/articles"  modelAttribute="article" method="POST" class="article-form">
+                <form:form action="articles/"  modelAttribute="article" method="POST" class="article-form">
                     <h1>Create post</h1>
 
 
@@ -67,6 +67,7 @@
                                        path="content"
                                        id="content" rows="5" class="form-control" name="content" ></form:textarea>
                     </div>
+
 
                     <div class="form-group">
                         <p><span class="require">*</span> - required fields</p>

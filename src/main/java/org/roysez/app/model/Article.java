@@ -33,10 +33,8 @@ public @Data class Article implements Serializable {
     @Column(name = "DATE")
     private Date date;
 
-    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE }, fetch=FetchType.EAGER )
-    @JoinTable(name="ARTICLE_USER",
-            joinColumns = @JoinColumn(name="ARTICLE_ID"),
-            inverseJoinColumns = @JoinColumn(name="USER_ID")
-    )
+    @ManyToOne
+    @JoinColumn(name="USER_ID")
     private User user;
+
 }

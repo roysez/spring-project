@@ -30,7 +30,7 @@ public class HomeController {
     }
 
 
-     private String getAuthenticatedUserName(){
+     protected static String getAuthenticatedUserName(){
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

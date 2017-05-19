@@ -1,8 +1,7 @@
 package org.roysez.app.model;
 
 import lombok.Data;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Fetch;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.roysez.app.enums.Role;
 import org.roysez.app.enums.State;
@@ -20,6 +19,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "APP_USER")
+@ToString(exclude="articles")
 public @Data  class User {
 
     @Id
@@ -51,8 +51,10 @@ public @Data  class User {
     private String UserRole = Role.USER.getRole();
 
 
-    @OneToMany(mappedBy = "user") // inverse side: it has a mappedBy attribute, and can't decide how the association is mapped, since the other side already decided it.
-    @Fetch(FetchMode.JOIN)
+    @OneToMany(targetEntity = Article.class ,mappedBy = "user",
+    cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+    fetch = FetchType.LAZY)
     private Collection<Article> articles;
+
 
 }

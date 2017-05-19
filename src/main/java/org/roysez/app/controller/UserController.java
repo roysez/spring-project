@@ -108,6 +108,7 @@ public class UserController {
         }
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 
+
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("ROLE_"+ roleToCheck)) {
                 return true;
