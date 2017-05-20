@@ -37,7 +37,7 @@ Main functionality, which will be implemented
                     <li>account ✓</li>
                     <li>login ✓</li>
                     <li>register ✓</li>
-                    <li>post articles</li>
+                    <li>post articles ✓</li>
                     <li>send message to admin</li>
                 </ul>
             </td>
@@ -98,10 +98,10 @@ Main functionality, which will be implemented
         <td></td>
         <td>
         <ul>
-            <li>post</li>
+            <li>post ✓</li>
             <li>edit</li>
             <li>delete</li>
-            <li>review</li>
+            <li>review ✓</li>
             <li>add files to article</li>
         </ul>
         </td>
@@ -120,7 +120,7 @@ Main functionality, which will be implemented
         <td>
         <ul>
             <li>user</li>
-            <li>post tittle</li>
+            <li>post title </li>
             <li>pagination</li>
         </ul>
         </td>
@@ -128,7 +128,7 @@ Main functionality, which will be implemented
         <td>
         <ul>
             <li>Ajax ✓</li>
-            <li>Handle errors ✓</li>
+            <li>Handle errors </li>
             <li>session ✓</li>
         </ul>
         </td>

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by roysez on 13.05.2017.
@@ -32,14 +34,29 @@ public class ArticleController {
 
     @RequestMapping(value = "/",method = RequestMethod.POST)
     public String postArticle(Article article,Model model){
+
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         sdf.format(currentDate);
+
         article.setDate(currentDate);
+
         User user = userService.findBySso(HomeController.getAuthenticatedUserName());
+
         article.setUser(user);
+
         articleService.save(article);
+
         return "redirect:/articles/"+article.getId();
+    }
+
+    @RequestMapping(value = {"","/"},method = RequestMethod.GET)
+    public String getAllArticlesPage(Model model){
+        List<Article> entityList = articleService.findAll();
+        Collections.sort(entityList);
+        model.addAttribute("articlesList",entityList);
+
+        return "articles/articles";
     }
 
     @RequestMapping(value = "/{articleId}",method = RequestMethod.GET)
@@ -59,5 +76,7 @@ public class ArticleController {
 
         return "articles/article";
     }
+
+
 
 }

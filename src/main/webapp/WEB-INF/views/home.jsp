@@ -17,10 +17,11 @@
 <body>
     <div class="navbar navbar-default navbar-static-top">
         <div class="container">
-            <div class="navbar-header"> <a href="<c:url value="/"/>" class="navbar-brand">Project</a> </div>
+            <div class="navbar-header"> <a href="<c:url value="/"/>" class="navbar-brand">Home</a> </div>
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
                     <li><a href="<c:url value="/users/"/>">Users</a></li>
+                    <li><a href="<c:url value="/articles/"/>">Articles</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <sec:authorize access="isAuthenticated()">
@@ -85,7 +86,9 @@
                 </form:form>
             </div>
         </sec:authorize>
+
     </div>
+
 
     <footer class="modal-footer" style="position: absolute;bottom: 0px;">
         <div class="container">

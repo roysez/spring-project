@@ -1,6 +1,9 @@
 package org.roysez.app.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import org.roysez.app.util.JsonDateSerializer;
+import org.roysez.app.util.JsonUserSerializer;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,7 +20,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="APP_ARTICLE")
-public @Data class Article implements Serializable {
+public @Data class Article implements Serializable,Comparable<Article> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +34,15 @@ public @Data class Article implements Serializable {
     private String content;
 
     @Column(name = "DATE")
+    @JsonSerialize(using=JsonDateSerializer.class)
     private Date date;
 
     @ManyToOne
     @JoinColumn(name="USER_ID")
+    @JsonSerialize(using = JsonUserSerializer.class)
     private User user;
 
+    public int compareTo(Article second) {
+        return second.date.compareTo(this.date);
+    }
 }

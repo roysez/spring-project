@@ -19,7 +19,6 @@
             <ul class="nav navbar-nav">
                 <!--            Пункти меню-->
                 <li><a href="<c:url value="/users/"/>">Users</a></li>
-                <li><a href="<c:url value="/articles/"/>">Articles</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="isAuthenticated()">
@@ -38,46 +37,40 @@
         </div>
     </div>
 </div>
-
-<div class="container main">
-    <c:if test="${articleNotFound!=null}">
-    <div class="alert alert-danger">
-        <p>${articleNotFound}</p>
-    </div>
-    </c:if>
-    <c:if test="${articleNotFound==null}">
+<div class="container">
     <div class="alert-block">
 
     </div>
-    <div class="panel panel-info">
-        <div class="row">
-            <div class="col-xs-1">
 
-            </div>
-            <div class="col-xs-9">
+    <c:forEach items="${articlesList}" var="articleItem">
+        <div class="panel panel-info">
+            <div class="row">
+                <div class="col-xs-1">
 
-                <div class="article">
-                    <h3>${article.getTitle()}</h3>
-
-                    <ul class="list-unstyled list-inline">
-                        <li><i class="fa fa-calendar"></i> ${article.getDate()}</li>
-                        <li><a href="/users/${article.getUser().getSsoId()}"><i
-                                class="fa fa-user"></i> ${article.getUser().getSsoId()}</a></li>
-                    </ul>
-
-                    <div class="article-content">
-
-                            ${article.getContent()}
-
-                    </div>
                 </div>
+                <div class="col-xs-9">
+
+                    <div class="article">
+                        <h3><a href="/articles/${articleItem.getId()}">${articleItem.getTitle()}</a></h3>
+
+                        <ul class="list-unstyled list-inline">
+                            <li><i class="fa fa-calendar"></i> ${articleItem.getDate()}</li>
+                            <li><a href="/users/${articleItem.getUser().getSsoId()}"><i
+                                    class="fa fa-user"></i> ${articleItem.getUser().getSsoId()}</a></li>
+                        </ul>
+
+                        <div class="article-content">
+
+                                ${articleItem.getContent()}
+
+                        </div>
+                    </div>
 
 
+                </div>
+                <div class="col-md-2"></div>
             </div>
-            <div class="col-md-2"></div>
         </div>
-    </div>
-
-        </c:if>
+    </c:forEach></div>
 </body>
 </html>

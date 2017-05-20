@@ -33,9 +33,11 @@ public class UserController {
 
     /* Return page with list of all user */
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String getAllUsers(Model model){
+    public String getAllUsersPage(Model model){
+
         List<User> listOfAllUsers = userService.findAll();
         model.addAttribute("listOfAllUsers",listOfAllUsers);
+
         return "users/users";
     }
 
@@ -43,11 +45,13 @@ public class UserController {
     public String getUserProfile(Model model,
                                  @PathVariable("ssoId") String requestSsoId){
         User user = userService.findBySso(requestSsoId);
+
         if(user==null){
             model.addAttribute("errorUserNotFound","User with username: <i>"+requestSsoId+"</i> not found");
             System.out.println(model.containsAttribute("errorUserNotFound"));
             return "users/user_profile";
         }
+
         model.addAttribute("user",user);
         return "users/user_profile";
     }

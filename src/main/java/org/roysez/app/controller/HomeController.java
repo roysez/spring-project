@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
+ * Controller used for generating home page ;
+ * 'GET' : '/home' or '/' ;
+ * Contains method {@code getAuthenticatedUserName()} for returning SsoId of authenticated user ;
+ *
  * Created by roysez on 02.05.2017.
  * 0:26
  * Package : org.roysez.app.controller

@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 
+ * Controller used for handling requests such as
+ * 'GET' for generating pages: '/signup' , '/login', '/access_denied', '/logout ;
+ * 'POST' for register user account: '/signup' ;
  *
  * Created by roysez on 01.05.2017.
  * 23:56

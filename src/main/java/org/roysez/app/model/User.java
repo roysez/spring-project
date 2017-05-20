@@ -1,5 +1,6 @@
 package org.roysez.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -51,10 +52,11 @@ public @Data  class User {
     private String UserRole = Role.USER.getRole();
 
 
-    @OneToMany(targetEntity = Article.class ,mappedBy = "user",
-    cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
-    fetch = FetchType.LAZY)
-    private Collection<Article> articles;
+    @OneToMany(targetEntity = Article.class, mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,CascadeType.REMOVE},
+            fetch = FetchType.LAZY)
+    @JsonIgnore
+    protected Collection<Article> articles;
 
 
 }
