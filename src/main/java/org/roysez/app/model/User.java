@@ -20,7 +20,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "APP_USER")
-@ToString(exclude="articles")
+@ToString(exclude={"articles","content"})
 public @Data  class User {
 
     @Id
@@ -57,6 +57,12 @@ public @Data  class User {
             fetch = FetchType.LAZY)
     @JsonIgnore
     protected Collection<Article> articles;
+
+
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "PROFILE_PHOTO")
+    @Lob
+    private byte[] userProfilePhoto;
 
 
 }

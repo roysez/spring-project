@@ -11,11 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -100,6 +100,33 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
+
+    @RequestMapping(value = "/{userId}/photo",method = RequestMethod.POST)
+    public String setUserProfilePhoto(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes,
+                                   @PathVariable Integer userId,Model model) {
+
+
+        /*
+         * CHANGE IT !
+         */
+        if (file.isEmpty()) {
+            model.addAttribute("errorUserNotFound","Choose any file");
+            return "users/user_profile";
+        }
+
+        User user= userService.findById(userId);
+        try {
+            byte[] bytes = file.getBytes();
+            user.setUserProfilePhoto(bytes);
+            userService.update(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/users/"+user.getSsoId();
+    }
 
     /*
     * Check authenticated user for having role which was requested

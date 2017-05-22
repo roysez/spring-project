@@ -33,8 +33,14 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public String testPage(Model mode){
+        return "testfile";
+    }
 
-     protected static String getAuthenticatedUserName(){
+
+
+    protected static String getAuthenticatedUserName(){
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
