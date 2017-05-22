@@ -11,6 +11,9 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
+ * Validates the specified input and send the augmented validation result to the specified output.
+ * Validates entity {@link User} ;
+ *
  * Created by roysez on 03.05.2017.
  * 15:12
  * Package : org.roysez.app.util

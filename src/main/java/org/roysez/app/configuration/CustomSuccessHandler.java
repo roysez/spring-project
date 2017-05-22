@@ -1,5 +1,7 @@
 package org.roysez.app.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +20,7 @@ import java.util.List;
 
 /**
  * Used to handle a successful user authentication,
- * extends {@code SimpleUrlAuthenticationSuccessHandler},
+ * extends {@link SimpleUrlAuthenticationSuccessHandler},
  * which can be configured with a default URL which users should be sent to upon successful authentication.
  *
  * Created by roysez on 28.04.2017.
@@ -31,20 +33,24 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            System.out.println("Can't redirect");
+            logger.error("Can't redirect");
             return;
         }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    protected String determineTargetUrl(Authentication authentication){
-        String url="";
+    private String determineTargetUrl(Authentication authentication){
+
+        logger.debug("Redirecting: " + authentication.getPrincipal());
+        String url= "";
         String userName = ((UserDetails)authentication.getPrincipal()).getUsername();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 

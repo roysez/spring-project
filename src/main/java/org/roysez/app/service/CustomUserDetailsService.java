@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This service will read existing users from data source with
+ * complete credentials (i.e. including Password field)
+ *
  * Created by roysez on 02.05.2017.
  * 0:06
  * Package : org.roysez.app.service

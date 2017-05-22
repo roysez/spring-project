@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Implementation of {@link UserDao},
+ * extends {@link AbstractDao};
+ *
  * Created by roysez on 28.04.2017.
  * 0:02
  * Package : org.roysez.app.dao

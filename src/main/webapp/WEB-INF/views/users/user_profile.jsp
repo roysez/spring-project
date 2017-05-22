@@ -48,12 +48,12 @@
 </div>
 
 <div class="container main">
-    <c:if test="${errorUserNotFound!=null}">
+    <c:if test="${error!=null}">
     <div class="alert alert-danger">
-        <p>${errorUserNotFound}</p>
+        <p>${error}</p>
     </div>
     </c:if>
-    <c:if test="${errorUserNotFound==null}">
+    <c:if test="${error==null}">
     <div class="alert-block">
 
     </div>

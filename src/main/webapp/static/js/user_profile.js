@@ -5,7 +5,8 @@
     $(document).ready(function ()
     {
         $(".backup-picture").on("error", function(){
-            $(this).attr('src', 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ6afIs-1S3GXUawbA_UeVHFwO8niO_4O7iEll3Uh8o_FNejgiC');
+            $(this).attr('src',
+                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ6afIs-1S3GXUawbA_UeVHFwO8niO_4O7iEll3Uh8o_FNejgiC');
         });
     });
 

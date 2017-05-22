@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
+ * Implementation of {@link UserService}
+ *
  * Created by roysez on 28.04.2017.
  * 0:10
  * Package : org.roysez.app.service

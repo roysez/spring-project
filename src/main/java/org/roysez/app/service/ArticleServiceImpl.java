@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
+ * Implementation of {@link ArticleService}
+ *
  * Created by roysez on 18.05.2017.
  * 12:50
  * Package : org.roysez.app.service

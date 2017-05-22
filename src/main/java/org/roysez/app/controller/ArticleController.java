@@ -17,6 +17,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Controller used for handling requests such as:
+ * 'GET' redirect the client to a logical view : '/articles', '/articles/{articleId}' ;
+ * 'POST' for submitted form: '/articles' ;
+ *  Invokes a business class to process business-related tasks ;
+ *
  * Created by roysez on 13.05.2017.
  * 0:21
  * Package : org.roysez.app.controller
@@ -25,13 +30,27 @@ import java.util.List;
 @RequestMapping(value = "/articles")
 public class ArticleController {
 
+    /**
+     * Autowire by the implementation of {@link ArticleService},
+     * defined in the Spring Container ;
+     */
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
+    /**
+     * Autowire by the implementation of {@link UserService},
+     * defined in the Spring Container ;
+     */
     @Autowired
-    UserService userService;
+    private UserService userService;
 
 
+    /**
+     * User to save given object of type {@link Article}
+     * @param article - entity to post;
+     * @param model ;
+     * @return redirects to another url ;
+     */
     @RequestMapping(value = "/",method = RequestMethod.POST)
     public String postArticle(Article article,Model model){
 
@@ -50,6 +69,12 @@ public class ArticleController {
         return "redirect:/articles/"+article.getId();
     }
 
+    /**
+     * Redirects to JSP, with given model;
+     * Returns page with all articles;
+     * @param model ;
+     * @return name of JSP to redirect ;
+     */
     @RequestMapping(value = {"","/"},method = RequestMethod.GET)
     public String getAllArticlesPage(Model model){
         List<Article> entityList = articleService.findAll();
@@ -59,6 +84,12 @@ public class ArticleController {
         return "articles/articles";
     }
 
+    /**
+     * Redirects to JSP to form page with requested articles;
+     * @param model ;
+     * @param articleId - unique entity ID of {@link Article}
+     * @return name of JSP to redirect ;
+     */
     @RequestMapping(value = "/{articleId}",method = RequestMethod.GET)
     public String getArticlePage(Model model, @PathVariable String articleId){
 

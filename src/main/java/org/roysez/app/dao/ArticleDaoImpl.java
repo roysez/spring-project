@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Implementation of {@link ArticleDao},
+ * extends {@link AbstractDao};
+ *
  * Created by roysez on 18.05.2017.
  * 12:47
  * Package : org.roysez.app.dao

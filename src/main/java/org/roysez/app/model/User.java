@@ -20,7 +20,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "APP_USER")
-@ToString(exclude={"articles","content"})
+@ToString(exclude={"articles","userProfilePhoto"})
 public @Data  class User {
 
     @Id
