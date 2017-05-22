@@ -29,6 +29,5 @@
     </authentication-manager>
 
     <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-    <!--<beans:bean id="customSuccessHandler" class="org.roysez.app.configuration.CustomSuccessHandler"/>-->
-    <!--<beans:bean id="customUserDetailsService" class="org.roysez.app.service.CustomUserDetailsService"/>-->
+
 </beans:beans>

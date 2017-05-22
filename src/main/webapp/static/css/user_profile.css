@@ -1,8 +1,53 @@
+img {
+    font-family: 'Helvetica';
+    font-weight: 300;
+    line-height: 2;
+    text-align: center;
+
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+}
+
+img:before {
+    content: "Мы сожалеем, но эта картинка «битая» :(";
+    display: block;
+    margin-bottom: 10px;
+}
+
+img:after {
+    content: "(url: " attr(src) ")";
+    display: block;
+    font-size: 12px;
+}
+
 .avatar {
-    border-radius: 50%;
-    border: 1px solid black;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 300px;
+}
+.avatar-holder {
+    width: 200px;
+    border-radius: 500px;
 }
 .edit-on {
     display: none;
+}
+
+.btn-file {
+
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 5px;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }

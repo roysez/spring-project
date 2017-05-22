@@ -2,6 +2,13 @@
  * Created by roysez on 05.05.2017.
  */
 
+    $(document).ready(function ()
+    {
+        $(".backup-picture").on("error", function(){
+            $(this).attr('src', 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ6afIs-1S3GXUawbA_UeVHFwO8niO_4O7iEll3Uh8o_FNejgiC');
+        });
+    });
+
 
     function deleteUser(username) {
         $.ajax({
@@ -30,7 +37,9 @@
     function editUser() {
         $('.edit-off').css('display','none');
         $('.edit-on').css('display','block');
+        $('tr:last-child>td.edit-on').css('display','inline-block');
         $('button.edit-on').css('display','inline-block');
+
     }
 
     function cancelEdit() {

@@ -6,7 +6,6 @@ import org.roysez.app.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Controller used for handling requests such as
+ * 'GET' for generating pages: '/signup' , '/login', '/access_denied', '/logout ;
+ * 'POST' for register user account: '/signup' ;
+ *
  * Created by roysez on 01.05.2017.
  * 23:56
  * Package : org.roysez.app.controller
@@ -44,24 +47,17 @@ public class AccountController {
     public String saveRegistration( User user,
                                    BindingResult result, Model model) {
 
-         userValidator.validate(user,result);
+        userValidator.validate(user,result);
 
         if (result.hasErrors()) {
             System.out.println("There are errors");
             return "account/register";
         }
 
-        if(user.getUserRole()!="USER")
-            user.setUserRole("USER");
+
 
         userService.save(user);
 
-        System.out.println("First Name : "+user.getFirstName());
-        System.out.println("Last Name : "+user.getLastName());
-        System.out.println("SSO ID : "+user.getSsoId());
-        System.out.println("Password : "+user.getPassword());
-        System.out.println("Email : "+user.getEmail());
-        System.out.println("Checking UserRole...." + "\n" + "User Role: " + user.getUserRole());
 
         model.addAttribute("user",null);
         model.addAttribute("successfulRegistration", "User " + user.getSsoId() + " has been registered successfully");
@@ -71,7 +67,6 @@ public class AccountController {
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login(Model model){
-
         return "account/login";
     }
 
@@ -89,22 +84,9 @@ public class AccountController {
 
     @RequestMapping(value = "/access_denied",method = RequestMethod.GET)
     public String accessDeniedPage(Model model){
-
-        model.addAttribute("authenticatedUserName",getAuthenticatedUserName());
         return "account/access_denied";
     }
 
 
 
-    private String getAuthenticatedUserName(){
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
-    }
 }

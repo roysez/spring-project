@@ -11,11 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,14 +31,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private UserValidator userValidator;
-
     /* Return page with list of all user */
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String getAllUsers(Model model){
+    public String getAllUsersPage(Model model){
+
         List<User> listOfAllUsers = userService.findAll();
         model.addAttribute("listOfAllUsers",listOfAllUsers);
+
         return "users/users";
     }
 
@@ -46,11 +45,13 @@ public class UserController {
     public String getUserProfile(Model model,
                                  @PathVariable("ssoId") String requestSsoId){
         User user = userService.findBySso(requestSsoId);
+
         if(user==null){
             model.addAttribute("errorUserNotFound","User with username: <i>"+requestSsoId+"</i> not found");
             System.out.println(model.containsAttribute("errorUserNotFound"));
             return "users/user_profile";
         }
+
         model.addAttribute("user",user);
         return "users/user_profile";
     }
@@ -72,12 +73,6 @@ public class UserController {
         user.setFirstName(newUserInformation.getFirstName());
         user.setLastName(newUserInformation.getLastName());
         user.setEmail(newUserInformation.getEmail());
-
-//        userValidator.validate(user,bindingResult);
-//
-//        if (bindingResult.hasErrors()) {
-//            return  new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        }
 
         userService.update(user);
 
@@ -106,6 +101,33 @@ public class UserController {
     }
 
 
+
+    @RequestMapping(value = "/{userId}/photo",method = RequestMethod.POST)
+    public String setUserProfilePhoto(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes,
+                                   @PathVariable Integer userId,Model model) {
+
+
+        /*
+         * CHANGE IT !
+         */
+        if (file.isEmpty()) {
+            model.addAttribute("errorUserNotFound","Choose any file");
+            return "users/user_profile";
+        }
+
+        User user= userService.findById(userId);
+        try {
+            byte[] bytes = file.getBytes();
+            user.setUserProfilePhoto(bytes);
+            userService.update(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/users/"+user.getSsoId();
+    }
+
     /*
     * Check authenticated user for having role which was requested
     */
@@ -116,6 +138,7 @@ public class UserController {
             return false;
         }
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+
 
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("ROLE_"+ roleToCheck)) {
