@@ -1,6 +1,5 @@
 package org.roysez.app.controller;
 
-import org.roysez.app.model.User;
 import org.roysez.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +31,6 @@ public class ImageController {
     @RequestMapping(value = "/image/{userId}")
     @ResponseBody
     public byte[] getUserProfilePhoto(@PathVariable int userId) {
-        User user = userService.findById(userId);
-        return user.getUserProfilePhoto();
+        return userService.findById(userId).getUserProfilePhoto();
     }
 }

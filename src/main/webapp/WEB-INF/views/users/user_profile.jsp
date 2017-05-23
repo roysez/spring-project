@@ -69,7 +69,7 @@
                     <div class="col-md-3 col-lg-3" align="center">
                         <div class="avatar-holder">
                             <img class="avatar backup-picture"
-                                 src="/image/${user.getId()}"></div>
+                                 src="/image/${user.getId()}" ></div>
 
                     </div>
 
