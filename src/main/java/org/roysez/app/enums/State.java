@@ -28,8 +28,6 @@ public enum State {
         return this.state;
     }
 
-    public String getName() {
-        return this.getName();
-    }
+
 
 }

@@ -5,7 +5,6 @@ import org.hibernate.criterion.Restrictions;
 import org.roysez.app.model.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +37,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
     public List<User> findAll() {
         Criteria criteria = createEntityCriteria();
-        List<User> listOfAllUsers = new ArrayList<User>();
-        listOfAllUsers = criteria.list();
+        List<User> listOfAllUsers = criteria.list();
         return listOfAllUsers;
     }
 

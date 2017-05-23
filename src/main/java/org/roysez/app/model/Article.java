@@ -6,7 +6,6 @@ import org.roysez.app.util.JsonDateSerializer;
 import org.roysez.app.util.JsonUserSerializer;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -20,7 +19,7 @@ import java.util.Date;
 @Table(name = "APP_ARTICLE")
 public
 @Data
-class Article implements Serializable, Comparable<Article> {
+class Article implements Comparable<Article> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

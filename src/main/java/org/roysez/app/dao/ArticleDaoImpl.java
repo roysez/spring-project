@@ -4,7 +4,6 @@ import org.hibernate.Criteria;
 import org.roysez.app.model.Article;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +25,7 @@ public class ArticleDaoImpl extends AbstractDao<Integer, Article> implements Art
 
     public List<Article> findAll() {
         Criteria criteria = createEntityCriteria();
-        List<Article> listOfAllArticles = new ArrayList<Article>();
-        listOfAllArticles = criteria.list();
+        List<Article> listOfAllArticles = criteria.list();
         return listOfAllArticles;
     }
 

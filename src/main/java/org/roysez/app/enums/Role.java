@@ -32,7 +32,4 @@ public enum Role {
         return this.role;
     }
 
-    public String getName() {
-        return this.getName();
-    }
 }
