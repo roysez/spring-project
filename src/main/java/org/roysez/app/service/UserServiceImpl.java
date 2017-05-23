@@ -12,9 +12,7 @@ import java.util.List;
 /**
  * Implementation of {@link UserService}
  *
- * Created by roysez on 28.04.2017.
- * 0:10
- * Package : org.roysez.app.service
+ * @author roysez
  */
 @Service("userService")
 @Transactional
@@ -26,13 +24,13 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public void save(User user){
+    public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
     }
 
-    public void update(User user){
-            userDao.updateUser(user);
+    public void update(User user) {
+        userDao.updateUser(user);
     }
 
     public User findBySso(String sso) {
@@ -50,7 +48,8 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(User user) {
         userDao.deleteUser(user);
     }
-    public User findByEmail(String email){
+
+    public User findByEmail(String email) {
         return userDao.findByEmail(email);
     }
 }

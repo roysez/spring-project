@@ -11,9 +11,7 @@ import java.io.IOException;
 /**
  * Used to serialize {@link User} entity, with custom serialization ;
  *
- * Created by roysez on 20.05.2017.
- * 0:55
- * Package : org.roysez.app.util
+ * @author roysez
  */
 public class JsonUserSerializer extends JsonSerializer<User> {
 

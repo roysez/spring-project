@@ -45,7 +45,7 @@
     <div class="container">
 
        <legend>Welcome to our website</legend>
-        <sec:authorize access="isAuthenticated()">
+
             <a onclick="showArticleForm()" class="btn btn-primary btn-md" id="btn-post-article" >Post article</a>
             <div class="col-md-8 col-md-offset-2">
 
@@ -85,7 +85,7 @@
 
                 </form:form>
             </div>
-        </sec:authorize>
+
 
     </div>
 

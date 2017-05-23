@@ -39,6 +39,7 @@
         $('.edit-off').css('display','none');
         $('.edit-on').css('display','block');
         $('tr:last-child>td.edit-on').css('display','inline-block');
+        $('tr>td:first-child.edit-o').html('User profile photo:');
         $('button.edit-on').css('display','inline-block');
 
     }
@@ -46,7 +47,7 @@
     function cancelEdit() {
         $('.edit-off').css('display','inline-block');
         $('.edit-on').css('display','none');
-
+        $('tr>td:first-child.edit-o').html('');
     }
 
 

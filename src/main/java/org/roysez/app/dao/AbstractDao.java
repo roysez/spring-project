@@ -10,30 +10,17 @@ import java.lang.reflect.ParameterizedType;
 
 /**
  * An abstract base class for Hibernate DAO classes.
- * @param PK the type of primary key  ;
- * @param T the class which this DAO manage  ;
  *
- * Created by roysez on 27.04.2017.
- * 23:50
- * Package : org.roysez.app.dao
+ * @param PK the type of primary key  ;
+ * @param T  the class which this DAO manage  ;
+ * @author roysez
  */
- public abstract class AbstractDao<PK extends Serializable, T> {
+public abstract class AbstractDao<PK extends Serializable, T> {
 
     /**
      * Set the entity class managed by this DAO.
      */
     private final Class<T> persistentClass;
-
-
-
-    @SuppressWarnings("unchecked")
-    public AbstractDao(){
-        this.persistentClass =(Class<T>)
-                ((ParameterizedType) this.getClass().getGenericSuperclass())
-                        .getActualTypeArguments()[1];
-    }
-
-
     /**
      * Autowired by spring container ;
      * Configurations for SessionFactory at {@link data-config.xml}
@@ -41,32 +28,43 @@ import java.lang.reflect.ParameterizedType;
     @Autowired
     private SessionFactory sessionFactory;
 
+
+    @SuppressWarnings("unchecked")
+    public AbstractDao() {
+        this.persistentClass = (Class<T>)
+                ((ParameterizedType) this.getClass().getGenericSuperclass())
+                        .getActualTypeArguments()[1];
+    }
+
     /**
      * Method to get current session ;
+     *
      * @return the current Session.
      */
-    protected Session getSession(){
-       return sessionFactory.getCurrentSession();
+    protected Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 
 
     /**
-     *  Return the persistent instance of <T> with the given key,
-     *  or null if there is no such persistent instance.
+     * Return the persistent instance of <T> with the given key,
+     * or null if there is no such persistent instance.
+     *
      * @param key - unique id ;
      * @return object of type <T> ;
      */
     @SuppressWarnings("unchecked")
-    protected T getByKey(PK key){
+    protected T getByKey(PK key) {
         return (T) getSession().get(persistentClass, key);
     }
 
 
     /**
      * Save the given instance.
+     *
      * @param entity - entity to save;
      */
-    protected void persist(T entity){
+    protected void persist(T entity) {
         getSession().persist(entity);
     }
 
@@ -75,25 +73,30 @@ import java.lang.reflect.ParameterizedType;
      * Either save or update the given instance,
      * depending upon resolution of the unsaved-value checks
      * (see the manual for discussion of unsaved-value checking).
+     *
      * @param entity - entity to save/update;
      */
-    protected void update(T entity){ getSession().saveOrUpdate(entity); }
+    protected void update(T entity) {
+        getSession().saveOrUpdate(entity);
+    }
 
 
     /**
      * Delete the given instance.
+     *
      * @param entity - entity to delete.
      */
-    protected void delete(T entity){
+    protected void delete(T entity) {
         getSession().delete(entity);
     }
 
 
     /**
      * Creates a new Criteria query for <E>.
+     *
      * @return a new Criteria query.
      */
-    protected Criteria createEntityCriteria(){
+    protected Criteria createEntityCriteria() {
         return getSession().createCriteria(persistentClass);
     }
 }

@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Controller used for obtaining images from user profiles, which are stored in the database ;
  *
- * Created by roysez on 22.05.2017.
- * 2:05
- * Package : org.roysez.app.controller
+ * @author roysez
  */
 @Controller
 public class ImageController {
@@ -27,12 +25,13 @@ public class ImageController {
 
     /**
      * Returns image in bytes array, which can be used at client side;
+     *
      * @param userId - unique user ID, which profile photo must be returned;
      * @return array of bytes, user profile photo;
      */
     @RequestMapping(value = "/image/{userId}")
     @ResponseBody
-    public byte[] getUserProfilePhoto(@PathVariable int userId)  {
+    public byte[] getUserProfilePhoto(@PathVariable int userId) {
         User user = userService.findById(userId);
         return user.getUserProfilePhoto();
     }

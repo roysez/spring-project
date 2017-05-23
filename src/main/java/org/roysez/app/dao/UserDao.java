@@ -9,27 +9,27 @@ import java.util.List;
  * Besides the basic CRUD methods it provides a method to load all Users.
  * Read methods: by {@code email,ssoId,Id} ;
  *
- *
- * Created by roysez on 28.04.2017.
- * 0:01
- * Package : org.roysez.app.dao
+ * @author roysez
  */
 public interface UserDao {
 
     /**
      * Save the persistent object.
+     *
      * @param user object to save
      */
     void save(User user);
 
     /**
      * Updates the persistent object.
+     *
      * @param user object to update
      */
     void updateUser(User user);
 
     /**
      * Get the object by id.
+     *
      * @param id ;
      * @return persistent object of type {@link User}
      */
@@ -38,6 +38,7 @@ public interface UserDao {
 
     /**
      * Get the object by field: 'ssoId'.
+     *
      * @param sso ;
      * @return persistent object of type {@link User}
      */
@@ -46,6 +47,7 @@ public interface UserDao {
 
     /**
      * Get the object by field: 'email'.
+     *
      * @param email ;
      * @return persistent object of type {@link User}
      */
@@ -53,12 +55,14 @@ public interface UserDao {
 
     /**
      * Get the list of objects.
+     *
      * @return list of objects
      */
     List<User> findAll();
 
     /**
      * Delete the persistent object.
+     *
      * @param user object to delete
      */
     void deleteUser(User user);

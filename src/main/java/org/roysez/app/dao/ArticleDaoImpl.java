@@ -11,12 +11,10 @@ import java.util.List;
  * Implementation of {@link ArticleDao},
  * extends {@link AbstractDao};
  *
- * Created by roysez on 18.05.2017.
- * 12:47
- * Package : org.roysez.app.dao
+ * @author roysez
  */
 @Repository("articleDao")
-public class ArticleDaoImpl extends AbstractDao<Integer,Article> implements ArticleDao {
+public class ArticleDaoImpl extends AbstractDao<Integer, Article> implements ArticleDao {
 
     public void save(Article article) {
         persist(article);
@@ -28,9 +26,9 @@ public class ArticleDaoImpl extends AbstractDao<Integer,Article> implements Arti
 
     public List<Article> findAll() {
         Criteria criteria = createEntityCriteria();
-        List<Article> listOfAllArticles =  new ArrayList<Article>();
+        List<Article> listOfAllArticles = new ArrayList<Article>();
         listOfAllArticles = criteria.list();
-        return  listOfAllArticles;
+        return listOfAllArticles;
     }
 
     public void deleteArticle(Article article) {

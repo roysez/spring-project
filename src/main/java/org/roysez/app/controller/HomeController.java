@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * 'GET' : '/home' or '/' ;
  * Contains static method {@code getAuthenticatedUserName()} for returning SsoId of authenticated user ;
  *
- * Created by roysez on 02.05.2017.
- * 0:26
- * Package : org.roysez.app.controller
+ * @author roysez
  */
 @Controller
 public class HomeController {
@@ -29,33 +27,33 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-
-    /**
-     * Redirects to JSP, which generates home page, with given attributes;
-     * @param model ;
-     * @return name of JSP to redirect ;
-     */
-    @RequestMapping(value = {"/","/home"},method = RequestMethod.GET)
-    public String accessHomePage(Model model){
-        model.addAttribute("authenticatedUserName",getAuthenticatedUserName());
-        model.addAttribute("article",new Article());
-        return "home";
-    }
-
-
     /**
      * Static method  for returning SsoId of authenticated user ;
+     *
      * @return unique userName;
      */
-    protected static String getAuthenticatedUserName(){
+    protected static String getAuthenticatedUserName() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
+            userName = ((UserDetails) principal).getUsername();
         } else {
             userName = principal.toString();
         }
         return userName;
+    }
+
+    /**
+     * Redirects to JSP, which generates home page, with given attributes;
+     *
+     * @param model ;
+     * @return name of JSP to redirect ;
+     */
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+    public String accessHomePage(Model model) {
+        model.addAttribute("authenticatedUserName", getAuthenticatedUserName());
+        model.addAttribute("article", new Article());
+        return "home";
     }
 }

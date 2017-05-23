@@ -13,14 +13,14 @@ import java.util.Date;
  * Represents an Article entity
  * Used { @Code Lombok }for getter, setter and etc.
  *
- * Created by roysez on 12.05.2017.
- * 23:17
- * Package : org.roysez.app.model
+ * @author roysez
  */
 
 @Entity
-@Table(name="APP_ARTICLE")
-public @Data class Article implements Serializable,Comparable<Article> {
+@Table(name = "APP_ARTICLE")
+public
+@Data
+class Article implements Serializable, Comparable<Article> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +34,11 @@ public @Data class Article implements Serializable,Comparable<Article> {
     private String content;
 
     @Column(name = "DATE")
-    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name = "USER_ID")
     @JsonSerialize(using = JsonUserSerializer.class)
     private User user;
 

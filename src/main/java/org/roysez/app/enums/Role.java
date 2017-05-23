@@ -3,9 +3,7 @@ package org.roysez.app.enums;
 /**
  * Enum gives types of User Roles;
  *
- * Created by roysez on 02.05.2017.
- * 0:59
- * Package : org.roysez.app.enums
+ * @author roysez
  */
 public enum Role {
 
@@ -34,7 +32,7 @@ public enum Role {
         return this.role;
     }
 
-    public String getName(){
+    public String getName() {
         return this.getName();
     }
 }

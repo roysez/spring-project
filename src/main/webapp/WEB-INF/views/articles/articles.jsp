@@ -61,7 +61,7 @@
 
                         <div class="article-content">
 
-                                ${articleItem.getContent()}
+                            <pre>${articleItem.getContent()}</pre>
 
                         </div>
                     </div>

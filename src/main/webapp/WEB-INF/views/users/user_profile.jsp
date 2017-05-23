@@ -109,7 +109,7 @@
                         </tr>
                         <form method="post" action="${user.getId()}/photo" enctype="multipart/form-data">
                         <tr>
-                            <td >User's photo:</td>
+                            <td class="edit-o"></td>
 
                             <td class="edit-on"><input type="file" name="file" class="filestyle"  data-buttonName="btn-primary" data-size="sm"></td>
                             <td class="edit-on"><input type="submit" value="Upload photo" class="btn btn-primary btn-sm"></td>

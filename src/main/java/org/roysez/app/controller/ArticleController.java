@@ -20,11 +20,9 @@ import java.util.List;
  * Controller used for handling requests such as:
  * 'GET' redirect the client to a logical view : '/articles', '/articles/{articleId}' ;
  * 'POST' for submitted form: '/articles' ;
- *  Invokes a business class to process business-related tasks ;
+ * Invokes a business class to process business-related tasks ;
  *
- * Created by roysez on 13.05.2017.
- * 0:21
- * Package : org.roysez.app.controller
+ * @author roysez
  */
 @Controller
 @RequestMapping(value = "/articles")
@@ -47,67 +45,61 @@ public class ArticleController {
 
     /**
      * User to save given object of type {@link Article}
+     *
      * @param article - entity to post;
-     * @param model ;
+     * @param model   ;
      * @return redirects to another url ;
      */
-    @RequestMapping(value = "/",method = RequestMethod.POST)
-    public String postArticle(Article article,Model model){
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String postArticle(Article article, Model model) {
 
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         sdf.format(currentDate);
-
         article.setDate(currentDate);
 
         User user = userService.findBySso(HomeController.getAuthenticatedUserName());
-
         article.setUser(user);
-
         articleService.save(article);
-
-        return "redirect:/articles/"+article.getId();
+        return "redirect:/articles/" + article.getId();
     }
 
     /**
      * Redirects to JSP, with given model;
      * Returns page with all articles;
+     *
      * @param model ;
      * @return name of JSP to redirect ;
      */
-    @RequestMapping(value = {"","/"},method = RequestMethod.GET)
-    public String getAllArticlesPage(Model model){
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+    public String getAllArticlesPage(Model model) {
         List<Article> entityList = articleService.findAll();
         Collections.sort(entityList);
-        model.addAttribute("articlesList",entityList);
-
+        model.addAttribute("articlesList", entityList);
         return "articles/articles";
     }
 
     /**
      * Redirects to JSP to form page with requested articles;
-     * @param model ;
+     *
+     * @param model     ;
      * @param articleId - unique entity ID of {@link Article}
      * @return name of JSP to redirect ;
      */
-    @RequestMapping(value = "/{articleId}",method = RequestMethod.GET)
-    public String getArticlePage(Model model, @PathVariable String articleId){
+    @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
+    public String getArticlePage(Model model, @PathVariable String articleId) {
 
-        if(!articleId.matches("[0-9]+"))
-        {
-            model.addAttribute("articleNotFound","Article with id: <i>"+articleId +"</i> not found");
+        if (!articleId.matches("[0-9]+")) {
+            model.addAttribute("articleNotFound", "Article with id: <i>" + articleId + "</i> not found");
         } else {
             Article article = articleService.findById(Integer.parseInt(articleId));
-
-            if(article==null)
-                model.addAttribute("articleNotFound","Article with id: <i>"+articleId +"</i> not found");
+            if (article == null)
+                model.addAttribute("articleNotFound", "Article with id: <i>" + articleId + "</i> not found");
             else
-                model.addAttribute("article",article);
+                model.addAttribute("article", article);
         }
-
         return "articles/article";
     }
-
 
 
 }

@@ -12,18 +12,16 @@ import java.util.List;
  * Implementation of {@link UserDao},
  * extends {@link AbstractDao};
  *
- * Created by roysez on 28.04.2017.
- * 0:02
- * Package : org.roysez.app.dao
+ * @author roysez
  */
 @Repository("userDao")
-public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao {
+public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
     public void save(User user) {
         persist(user);
     }
 
-    public void updateUser(User user){
+    public void updateUser(User user) {
         update(user);
     }
 
@@ -33,25 +31,25 @@ public class UserDaoImpl extends AbstractDao<Integer,User> implements UserDao {
 
     public User findBySSO(String sso) {
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("ssoId",sso));
+        criteria.add(Restrictions.eq("ssoId", sso));
         User user = (User) criteria.uniqueResult();
         return user;
     }
 
     public List<User> findAll() {
         Criteria criteria = createEntityCriteria();
-        List<User> listOfAllUsers =  new ArrayList<User>();
+        List<User> listOfAllUsers = new ArrayList<User>();
         listOfAllUsers = criteria.list();
-        return  listOfAllUsers;
+        return listOfAllUsers;
     }
 
     public void deleteUser(User user) {
         delete(user);
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         Criteria criteria = createEntityCriteria();
-        User user = (User)criteria.add(Restrictions.eq("email",email)).uniqueResult();
+        User user = (User) criteria.add(Restrictions.eq("email", email)).uniqueResult();
         return user;
     }
 }
