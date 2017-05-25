@@ -17,7 +17,11 @@ import java.util.Collection;
  * @author roysez
  */
 @Entity
-@Table(name = "APP_USER")
+@Table(name = "APP_USER",
+indexes = {
+        @Index(columnList = "SSO_ID",unique = true,name = "SSO_ID_INDEX"),
+        @Index(columnList = "EMAIL",unique = true,name = "EMAIL_INDEX")
+})
 @ToString(exclude = {"articles", "userProfilePhoto"})
 public
 @Data

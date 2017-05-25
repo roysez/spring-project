@@ -16,7 +16,10 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "APP_ARTICLE")
+@Table(name = "APP_ARTICLE",
+indexes = {
+        @Index(columnList = "TITLE",name = "TITLE_INDEX")
+})
 public
 @Data
 class Article implements Comparable<Article> {
