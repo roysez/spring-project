@@ -3,6 +3,7 @@ package org.roysez.app.service;
 import org.roysez.app.dao.UserDao;
 import org.roysez.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by roysez on 28.04.2017.
- * 0:10
- * Package : org.roysez.app.service
+ * Implementation of {@link UserService}
+ *
+ * @author roysez
  */
 @Service("userService")
 @Transactional
@@ -24,19 +25,22 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public void save(User user){
+
+    public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
     }
 
-    public void update(User user){
-            userDao.updateUser(user);
+    public void update(User user) {
+        userDao.updateUser(user);
     }
 
+    @Cacheable(value = "users", unless = "#result != null",key = "#sso")
     public User findBySso(String sso) {
         return userDao.findBySSO(sso);
     }
 
+    @Cacheable(value = "users",unless = "#result != null",key = "#id")
     public User findById(int id) {
         return userDao.findById(id);
     }
@@ -48,7 +52,8 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(User user) {
         userDao.deleteUser(user);
     }
-    public User findByEmail(String email){
+
+    public User findByEmail(String email) {
         return userDao.findByEmail(email);
     }
 }

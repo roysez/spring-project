@@ -48,12 +48,12 @@
 </div>
 
 <div class="container main">
-    <c:if test="${errorUserNotFound!=null}">
+    <c:if test="${error!=null}">
     <div class="alert alert-danger">
-        <p>${errorUserNotFound}</p>
+        <p>${error}</p>
     </div>
     </c:if>
-    <c:if test="${errorUserNotFound==null}">
+    <c:if test="${error==null}">
     <div class="alert-block">
 
     </div>
@@ -69,7 +69,7 @@
                     <div class="col-md-3 col-lg-3" align="center">
                         <div class="avatar-holder">
                             <img class="avatar backup-picture"
-                                 src="/image/${user.getId()}"></div>
+                                 src="/image/${user.getId()}" ></div>
 
                     </div>
 
@@ -109,7 +109,7 @@
                         </tr>
                         <form method="post" action="${user.getId()}/photo" enctype="multipart/form-data">
                         <tr>
-                            <td >User's photo:</td>
+                            <td class="edit-o"></td>
 
                             <td class="edit-on"><input type="file" name="file" class="filestyle"  data-buttonName="btn-primary" data-size="sm"></td>
                             <td class="edit-on"><input type="submit" value="Upload photo" class="btn btn-primary btn-sm"></td>

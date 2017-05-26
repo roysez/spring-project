@@ -14,10 +14,7 @@ import java.util.Date;
  * Used to serialize Java.util.Date, which is not a common JSON
  * type, so we have to create a custom serialize method;.
  *
- *
- * Created by roysez on 20.05.2017.
- * 0:10
- * Package : org.roysez.app.util
+ * @author roysez
  */
 @Component
 public class JsonDateSerializer extends JsonSerializer<Date> {

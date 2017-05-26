@@ -5,8 +5,11 @@
     $(document).ready(function ()
     {
         $(".backup-picture").on("error", function(){
-            $(this).attr('src', 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ6afIs-1S3GXUawbA_UeVHFwO8niO_4O7iEll3Uh8o_FNejgiC');
+            console.log('Test');
+            $(this).attr('src',
+                'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ6afIs-1S3GXUawbA_UeVHFwO8niO_4O7iEll3Uh8o_FNejgiC');
         });
+
     });
 
 
@@ -38,6 +41,7 @@
         $('.edit-off').css('display','none');
         $('.edit-on').css('display','block');
         $('tr:last-child>td.edit-on').css('display','inline-block');
+        $('tr>td:first-child.edit-o').html('User profile photo:');
         $('button.edit-on').css('display','inline-block');
 
     }
@@ -45,7 +49,7 @@
     function cancelEdit() {
         $('.edit-off').css('display','inline-block');
         $('.edit-on').css('display','none');
-
+        $('tr>td:first-child.edit-o').html('');
     }
 
 

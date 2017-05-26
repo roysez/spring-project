@@ -41,7 +41,12 @@
     <div class="alert-block">
 
     </div>
-
+    <c:if test="${articlesList.isEmpty()}" >
+        <div class="alert alert-danger">
+            <p>There are not any article, try to post a new one</p>
+        </div>
+    </c:if>
+    <c:if test="${!articlesList.isEmpty()}">
     <c:forEach items="${articlesList}" var="articleItem">
         <div class="panel panel-info">
             <div class="row">
@@ -61,7 +66,7 @@
 
                         <div class="article-content">
 
-                                ${articleItem.getContent()}
+                            <pre>${articleItem.getContent()}</pre>
 
                         </div>
                     </div>
@@ -71,6 +76,7 @@
                 <div class="col-md-2"></div>
             </div>
         </div>
-    </c:forEach></div>
+    </c:forEach>
+    </c:if></div>
 </body>
 </html>

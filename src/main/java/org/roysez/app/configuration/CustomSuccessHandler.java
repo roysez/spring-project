@@ -1,5 +1,7 @@
 package org.roysez.app.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,12 +20,10 @@ import java.util.List;
 
 /**
  * Used to handle a successful user authentication,
- * extends {@code SimpleUrlAuthenticationSuccessHandler},
+ * extends {@link SimpleUrlAuthenticationSuccessHandler},
  * which can be configured with a default URL which users should be sent to upon successful authentication.
  *
- * Created by roysez on 28.04.2017.
- * 2:12
- * Package : org.roysez.app.configuration
+ * @author roysez
  */
 
 @Configuration("customSuccessHandler")
@@ -31,24 +31,28 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            System.out.println("Can't redirect");
+            logger.error("Can't redirect");
             return;
         }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    protected String determineTargetUrl(Authentication authentication){
-        String url="";
-        String userName = ((UserDetails)authentication.getPrincipal()).getUsername();
+    private String determineTargetUrl(Authentication authentication) {
+
+        logger.debug("Redirecting: " + authentication.getPrincipal());
+        String url = "";
+        String userName = ((UserDetails) authentication.getPrincipal()).getUsername();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        List<String> roles =  new ArrayList<String>();
+        List<String> roles = new ArrayList<String>();
         for (GrantedAuthority authority : authorities) {
             roles.add(authority.getAuthority());
         }
@@ -56,24 +60,29 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (isAdmin(roles)) {
             url = "/home";
         } else if (isUser(roles)) {
-            url = "/users/"+userName;
+            url = "/users/" + userName;
         } else {
-            url="/account/access_denied";
+            url = "/account/access_denied";
         }
 
         return url;
     }
 
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
-    }
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;
     }
 
-    private boolean isUser(List<String> roles) { return roles.contains("ROLE_USER"); }
+    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+        this.redirectStrategy = redirectStrategy;
+    }
 
-    private boolean isAdmin(List<String> roles) { return roles.contains("ROLE_ADMIN"); }
+    private boolean isUser(List<String> roles) {
+        return roles.contains("ROLE_USER");
+    }
+
+    private boolean isAdmin(List<String> roles) {
+        return roles.contains("ROLE_ADMIN");
+    }
 
 
 }

@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by roysez on 02.05.2017.
- * 0:06
- * Package : org.roysez.app.service
+ * This service will read existing users from data source with
+ * complete credentials (i.e. including Password field)
+ *
+ * @author roysez
  */
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
@@ -31,20 +32,20 @@ public class CustomUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         User user = userService.findBySso(name);
         System.out.println(user);
-        if(user==null){
+        if (user == null) {
             System.out.println("User not found");
             throw new UsernameNotFoundException("Username not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getSsoId(),user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(user.getSsoId(), user.getPassword(),
                 user.getState().equals("Active"),
-                true,true,true,getGrantedAuthorities(user));
+                true, true, true, getGrantedAuthorities(user));
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(User user){
+    private List<GrantedAuthority> getGrantedAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-        authorities.add((new SimpleGrantedAuthority("ROLE_"+ user.getUserRole())));
-        System.out.println("authorities:"+authorities);
+        authorities.add((new SimpleGrantedAuthority("ROLE_" + user.getUserRole())));
+        System.out.println("authorities:" + authorities);
         return authorities;
     }
 }

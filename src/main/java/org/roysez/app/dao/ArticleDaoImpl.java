@@ -4,16 +4,16 @@ import org.hibernate.Criteria;
 import org.roysez.app.model.Article;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by roysez on 18.05.2017.
- * 12:47
- * Package : org.roysez.app.dao
+ * Implementation of {@link ArticleDao},
+ * extends {@link AbstractDao};
+ *
+ * @author roysez
  */
 @Repository("articleDao")
-public class ArticleDaoImpl extends AbstractDao<Integer,Article> implements ArticleDao {
+public class ArticleDaoImpl extends AbstractDao<Integer, Article> implements ArticleDao {
 
     public void save(Article article) {
         persist(article);
@@ -25,9 +25,8 @@ public class ArticleDaoImpl extends AbstractDao<Integer,Article> implements Arti
 
     public List<Article> findAll() {
         Criteria criteria = createEntityCriteria();
-        List<Article> listOfAllArticles =  new ArrayList<Article>();
-        listOfAllArticles = criteria.list();
-        return  listOfAllArticles;
+        List<Article> listOfAllArticles = criteria.list();
+        return listOfAllArticles;
     }
 
     public void deleteArticle(Article article) {

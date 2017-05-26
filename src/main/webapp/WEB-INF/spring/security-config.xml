@@ -10,7 +10,7 @@
 
     <http auto-config="true" >
         <intercept-url pattern="/" access="permitAll" />
-        <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/articles/" method="POST" access="hasRole('ADMIN') or hasRole('USER')" />
         <form-login  login-page="/account/login"
                      username-parameter="ssoId"
                      password-parameter="password"

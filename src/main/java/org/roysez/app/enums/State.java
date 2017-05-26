@@ -1,11 +1,12 @@
 package org.roysez.app.enums;
 
 /**
- * Created by roysez on 02.05.2017.
- * 0:06
- * Package : org.roysez.app.enums
+ * Enum describes conditions which may be UserProfile.
+ *
+ * @author roysez
  */
 public enum State {
+
 
     ACTIVE("Active"),
     INACTIVE("Inactive"),
@@ -27,8 +28,6 @@ public enum State {
         return this.state;
     }
 
-    public String getName(){
-        return this.getName();
-    }
+
 
 }
