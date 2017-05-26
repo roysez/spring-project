@@ -3,7 +3,11 @@ package org.roysez.app.dao;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.roysez.app.model.User;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,14 +24,24 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         persist(user);
     }
 
+    @CacheEvict(value = "users",key = "#user.ssoId")
     public void updateUser(User user) {
         update(user);
     }
+
+
 
     public User findById(int id) {
         return getByKey(id);
     }
 
+    @Caching(
+            put = {
+                    @CachePut(value = "users", key = "#sso", condition = "#result != null"),
+                    @CachePut(value = "users", key = "#result.id", condition = "#result != null")
+            }
+    )
+    @Transactional(readOnly = true)
     public User findBySSO(String sso) {
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("ssoId", sso));
@@ -41,6 +55,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         return listOfAllUsers;
     }
 
+    @CacheEvict(value = "users",key = "#user.ssoId")
     public void deleteUser(User user) {
         delete(user);
     }
