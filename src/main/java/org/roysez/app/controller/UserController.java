@@ -161,7 +161,7 @@ public class UserController {
      * @param roleToCheck - requested role ;
      * @return Boolean value depending on the result ;
      */
-    private Boolean checkForAuthority(Role roleToCheck) {
+    public static Boolean checkForAuthority(Role roleToCheck) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth == null) {

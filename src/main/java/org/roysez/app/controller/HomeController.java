@@ -32,7 +32,7 @@ public class HomeController {
      *
      * @return unique userName;
      */
-    protected static String getAuthenticatedUserName() {
+    public static String getAuthenticatedUserName() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
