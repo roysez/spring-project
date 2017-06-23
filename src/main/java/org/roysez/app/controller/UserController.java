@@ -1,6 +1,7 @@
 package org.roysez.app.controller;
 
 import org.roysez.app.enums.Role;
+import org.roysez.app.exception.UserNotFoundException;
 import org.roysez.app.model.User;
 import org.roysez.app.service.UserService;
 import org.slf4j.Logger;
@@ -36,8 +37,13 @@ public class UserController {
      * Autowire by the implementation of {@link UserService},
      * defined in the Spring Container ;
      */
-    @Autowired
+
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Return page with list of all user
@@ -66,8 +72,7 @@ public class UserController {
         User user = userService.findBySso(requestSsoId);
 
         if (user == null) {
-            model.addAttribute("error", "User with username: <i>" + requestSsoId + "</i> not found");
-            return "users/user_profile";
+            throw new UserNotFoundException(requestSsoId);
         }
 
         model.addAttribute("user", user);
@@ -139,6 +144,12 @@ public class UserController {
     @RequestMapping(value = "/{userId}/photo", method = RequestMethod.POST)
     public String setUserProfilePhoto(@RequestParam("file") MultipartFile fileImage,
                                       @PathVariable Integer userId, Model model) {
+
+         if(!SecurityContextHolder.getContext()
+                 .getAuthentication()
+                 .getPrincipal()
+                 .equals(userService.findById(userId)))
+             return "account/access_denied";
 
         if (fileImage.isEmpty()) {
             model.addAttribute("error", "Choose any file");
