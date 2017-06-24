@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -90,7 +91,8 @@ public class UserController {
     @RequestMapping(value = "/{ssoId}", method = RequestMethod.PUT)
     public ResponseEntity editUserProfile(Model model, @PathVariable("ssoId") String requestSsoId,
                                           @RequestBody User newUserInformation) {
-        if (!checkForAuthority(Role.ADMIN)) {
+
+        if (!checkForOwnerOfProfile(requestSsoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -117,7 +119,7 @@ public class UserController {
     @RequestMapping(value = "/{ssoId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteUserProfile(@PathVariable String ssoId) {
 
-        if (!checkForAuthority(Role.ADMIN)) {
+        if (!checkForOwnerOfProfile(ssoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -145,17 +147,14 @@ public class UserController {
     public String setUserProfilePhoto(@RequestParam("file") MultipartFile fileImage,
                                       @PathVariable Integer userId, Model model) {
 
-         if(!SecurityContextHolder.getContext()
-                 .getAuthentication()
-                 .getPrincipal()
-                 .equals(userService.findById(userId)))
-             return "account/access_denied";
-
         if (fileImage.isEmpty()) {
             model.addAttribute("error", "Choose any file");
             return "users/user_profile";
         }
         User user = userService.findById(userId);
+
+        if(!checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
+
         try {
             byte[] bytes = fileImage.getBytes();
             user.setUserProfilePhoto(bytes);
@@ -187,4 +186,12 @@ public class UserController {
         return false;
     }
 
+    public  Boolean checkForOwnerOfProfile(String ssoId){
+
+        return checkForAuthority(Role.ADMIN) ||
+                ((UserDetails)SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal()).getUsername()
+                .equals(userService.findBySso(ssoId).getSsoId());
+    }
 }

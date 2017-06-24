@@ -3,6 +3,7 @@ package org.roysez.app.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.roysez.app.model.User;
@@ -16,9 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,9 +33,12 @@ public class UserControllerMockitoTest {
     @Mock
     private UserService userService;
 
+    @InjectMocks
+    private UserController userController = new UserController(userService);
+
     @Before
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(new UserController(userService))
+        mockMvc = MockMvcBuilders.standaloneSetup(userController)
                 .setValidator(new UserValidator())
                 .setViewResolvers(viewResolver())
                 .setControllerAdvice(new ExceptionHandlingController())
@@ -81,6 +83,22 @@ public class UserControllerMockitoTest {
 
         verify(userService,times(1)).findBySso("emptyUser");
         verifyNoMoreInteractions(userService);
+    }
+
+    @Test
+    public void editUserProfile() throws Exception {
+//        User first = new User();
+//        first.setSsoId("roysez");
+//        first.setFirstName("Sergiy");
+//        first.setLastName("Balukh");
+//
+//        try {
+//            when(userController.checkForOwnerOfProfile("roysez")).thenReturn(false);
+//        } catch (Exception e) {
+//        }
+//
+//        mockMvc.perform(put("/users/{ssoId}","roysez").contentType(MediaType.APPLICATION_JSON))
+//                 .andExpect(status().isUnauthorized());
     }
 
     private ViewResolver viewResolver() {
