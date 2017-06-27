@@ -32,4 +32,9 @@ public class ArticleDaoImpl extends AbstractDao<Integer, Article> implements Art
     public void deleteArticle(Article article) {
         delete(article);
     }
+
+
+    public void updateArticle(Article article) {
+        update(article);
+    }
 }

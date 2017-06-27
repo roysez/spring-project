@@ -1,25 +1,20 @@
 package org.roysez.app.controller;
 
-import org.roysez.app.enums.Role;
 import org.roysez.app.exception.UserNotFoundException;
 import org.roysez.app.model.User;
 import org.roysez.app.service.UserService;
+import org.roysez.app.util.AuthorityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,6 +35,9 @@ public class UserController {
      */
 
     private UserService userService;
+
+    @Autowired
+    private AuthorityUtil authorityUtil;
 
     @Autowired
     public UserController(UserService userService) {
@@ -92,7 +90,7 @@ public class UserController {
     public ResponseEntity editUserProfile(Model model, @PathVariable("ssoId") String requestSsoId,
                                           @RequestBody User newUserInformation) {
 
-        if (!checkForOwnerOfProfile(requestSsoId)) {
+        if (!authorityUtil.checkForOwnerOfProfile(requestSsoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -119,7 +117,7 @@ public class UserController {
     @RequestMapping(value = "/{ssoId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteUserProfile(@PathVariable String ssoId) {
 
-        if (!checkForOwnerOfProfile(ssoId)) {
+        if (!authorityUtil.checkForOwnerOfProfile(ssoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -153,7 +151,7 @@ public class UserController {
         }
         User user = userService.findById(userId);
 
-        if(!checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
+        if(!authorityUtil.checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
 
         try {
             byte[] bytes = fileImage.getBytes();
@@ -165,33 +163,5 @@ public class UserController {
         return "redirect:/users/" + user.getSsoId();
     }
 
-    /**
-     * Check authenticated user for having role which was requested ;
-     *
-     * @param roleToCheck - requested role ;
-     * @return Boolean value depending on the result ;
-     */
-    public static Boolean checkForAuthority(Role roleToCheck) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null) {
-            return false;
-        }
-        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ROLE_" + roleToCheck)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public  Boolean checkForOwnerOfProfile(String ssoId){
-
-        return checkForAuthority(Role.ADMIN) ||
-                ((UserDetails)SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal()).getUsername()
-                .equals(userService.findBySso(ssoId).getSsoId());
-    }
 }
