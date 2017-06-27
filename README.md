@@ -35,7 +35,7 @@ Main functionality, which will be implemented
             <td>
                 <ul>
                     <li>account ✓</li>
-                    <li>login ✓</li>
+                    <li>login ✓</l✓i>
                     <li>register ✓</li>
                     <li>post articles ✓</li>
                     <li>send message to admin</li>
@@ -48,7 +48,7 @@ Main functionality, which will be implemented
                     <li>account ✓</li>
                     <li>login ✓</li>
                     <li>register ✓</li>
-                    <li>view/edit/delete articles</li>
+                    <li>view/edit/delete articles ✓</li>
                     <li>callback</li>
                     <li>edit/delete accounts ✓</li>
                 </ul>
@@ -99,8 +99,8 @@ Main functionality, which will be implemented
         <td>
         <ul>
             <li>post ✓</li>
-            <li>edit</li>
-            <li>delete</li>
+            <li>edit ✓</li>
+            <li>delete ✓</li>
             <li>review ✓</li>
             <li>add files to article</li>
         </ul>
