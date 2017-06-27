@@ -35,8 +35,6 @@ import java.util.List;
 @RequestMapping(value = "/articles")
 public class ArticleController {
 
-    @Autowired
-    private AuthorityUtil authorityUtil;
 
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     /**
@@ -69,7 +67,7 @@ public class ArticleController {
         sdf.format(currentDate);
         article.setDate(currentDate);
 
-        User user = userService.findBySso(HomeController.getAuthenticatedUserName());
+        User user = userService.findBySso(AuthorityUtil.getAuthenticatedUserName());
         article.setUser(user);
         articleService.save(article);
         return "redirect:/articles/" + article.getId();
@@ -117,13 +115,12 @@ public class ArticleController {
     /**
      * Handling request with JSON of new article data ;
      *
-     * @param model ;
      * @param requestId  - unique Id of article ;
      * @param newArticle - new article data ;
      * @return {@link ResponseEntity} with some HTTP Status Code ;
      */
-    @RequestMapping(value = "/{ssoId}", method = RequestMethod.PUT)
-    public ResponseEntity editArticle(Model model, @PathVariable("id") String requestId,
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity editArticle(@PathVariable("id") String requestId,
                                           @RequestBody Article newArticle) {
 
 
@@ -131,12 +128,12 @@ public class ArticleController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        Article article = articleService.findById(Integer.getInteger(requestId));
+        Article article = articleService.findById(Integer.parseInt(requestId));
         if (article == null) {
             logger.warn("Unable to edit. Article with id " + requestId + " not found");
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        if (!authorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+        if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -163,7 +160,7 @@ public class ArticleController {
         if (article == null) {
             logger.warn("Unable to delete. Article with id " + articleId + " not found");
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else if (!authorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+        } else if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 

@@ -16,15 +16,31 @@ import java.util.Collection;
 public class AuthorityUtil {
 
     @Autowired
-    UserService userService;
+    private static UserService userService;
 
+    /**
+     * Static method  for returning SsoId of authenticated user ;
+     *
+     * @return unique userName;
+     */
+    public static String getAuthenticatedUserName() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
     /**
      * Check authenticated user for having role which was requested ;
      *
      * @param roleToCheck - requested role ;
      * @return Boolean value depending on the result ;
      */
-    public  Boolean checkForAuthority(Role roleToCheck) {
+    public  static Boolean checkForAuthority(Role roleToCheck) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth == null) {
@@ -39,7 +55,7 @@ public class AuthorityUtil {
         return false;
     }
 
-    public  Boolean checkForOwnerOfProfile(String ssoId){
+    public  static Boolean checkForOwnerOfProfile(String ssoId){
 
         return checkForAuthority(Role.ADMIN) ||
                 ((UserDetails)SecurityContextHolder.getContext()

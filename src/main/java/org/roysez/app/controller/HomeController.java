@@ -2,9 +2,8 @@ package org.roysez.app.controller;
 
 import org.roysez.app.model.Article;
 import org.roysez.app.service.UserService;
+import org.roysez.app.util.AuthorityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,22 +26,7 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    /**
-     * Static method  for returning SsoId of authenticated user ;
-     *
-     * @return unique userName;
-     */
-    public static String getAuthenticatedUserName() {
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
-    }
 
     /**
      * Redirects to JSP, which generates home page, with given attributes;
@@ -52,7 +36,7 @@ public class HomeController {
      */
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String accessHomePage(Model model) {
-        model.addAttribute("authenticatedUserName", getAuthenticatedUserName());
+        model.addAttribute("authenticatedUserName", AuthorityUtil.getAuthenticatedUserName());
         model.addAttribute("article", new Article());
         return "home";
     }

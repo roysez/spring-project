@@ -36,8 +36,7 @@ public class UserController {
 
     private UserService userService;
 
-    @Autowired
-    private AuthorityUtil authorityUtil;
+
 
     @Autowired
     public UserController(UserService userService) {
@@ -90,7 +89,7 @@ public class UserController {
     public ResponseEntity editUserProfile(Model model, @PathVariable("ssoId") String requestSsoId,
                                           @RequestBody User newUserInformation) {
 
-        if (!authorityUtil.checkForOwnerOfProfile(requestSsoId)) {
+        if (!AuthorityUtil.checkForOwnerOfProfile(requestSsoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -117,7 +116,7 @@ public class UserController {
     @RequestMapping(value = "/{ssoId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteUserProfile(@PathVariable String ssoId) {
 
-        if (!authorityUtil.checkForOwnerOfProfile(ssoId)) {
+        if (!AuthorityUtil.checkForOwnerOfProfile(ssoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -151,7 +150,7 @@ public class UserController {
         }
         User user = userService.findById(userId);
 
-        if(!authorityUtil.checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
+        if(!AuthorityUtil.checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
 
         try {
             byte[] bytes = fileImage.getBytes();

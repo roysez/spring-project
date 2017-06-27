@@ -2,6 +2,7 @@
 <%@ page import="org.roysez.app.controller.HomeController" %>
 <%@ page import="org.roysez.app.controller.UserController" %>
 <%@ page import="org.roysez.app.enums.Role" %>
+<%@ page import="org.roysez.app.util.AuthorityUtil" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -129,8 +130,9 @@
         </div>
         <div class="panel-footer">
             <%
-                String authUsername = HomeController.getAuthenticatedUserName();
-                Boolean authIsAdmin = UserController.checkForAuthority(Role.ADMIN);
+
+                String authUsername = AuthorityUtil.getAuthenticatedUserName();
+                Boolean authIsAdmin = AuthorityUtil.checkForAuthority(Role.ADMIN);
             %>
             <c:set var = "authUsername" scope = "page" value = "<%=authUsername%>"/>
             <c:set var = "authIsAdmin" scope = "page" value = "<%=authIsAdmin%>"/>
