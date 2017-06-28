@@ -42,4 +42,11 @@ public interface ArticleDao {
      */
     void deleteArticle(Article article);
 
+    /**
+     * Update the persistent object.
+     *
+     * @param article object to update
+     */
+    void updateArticle(Article article);
+
 }

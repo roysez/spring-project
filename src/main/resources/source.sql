@@ -7,3 +7,18 @@ VALUES ('1', 'ADMIN', 'sergiobaluh@gmail.com', 'Sergiy', 'Balukh',
 --         For testing login page
 --         Username = roysez
 --         Password = qwerty
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `X`()
+BEGIN
+  DECLARE i INT DEFAULT 401;
+  WHILE i < 2500 DO
+  INSERT INTO project.app_user (`ROLE`, `EMAIL`, `FIRST_NAME`, `LAST_NAME`, `PASSWORD`, `SSO_ID`, `STATE`)
+        VALUES('USER',i,i,i,i,i,'ACTIVE');
+  SET i = i + 1;
+  END WHILE;
+END
+
+
+CALL X(); -- RANDOM USERS

@@ -1,4 +1,8 @@
-<%@ page import="org.springframework.security.crypto.codec.Base64" %>
+<%@ page import="org.springframework.security.core.userdetails.UserDetails" %>
+<%@ page import="org.roysez.app.controller.HomeController" %>
+<%@ page import="org.roysez.app.controller.UserController" %>
+<%@ page import="org.roysez.app.enums.Role" %>
+<%@ page import="org.roysez.app.util.AuthorityUtil" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -15,6 +19,8 @@
     <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.css' />" media="screen">
     <link rel="stylesheet" href="<c:url value='/static/css/styles.css' />">
     <link rel="stylesheet" href="<c:url value='/static/css/user_profile.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/css/article.css' />">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="<c:url value="/static/js/jquery-3.2.1.min.js"/>"></script>
     <script src="<c:url value="/static/js/user_profile.js"/> "></script>
     <script src="<c:url value="/static/js/bootstrap-filestyle.min.js"/> "></script>
@@ -123,8 +129,15 @@
             </div>
         </div>
         <div class="panel-footer">
+            <%
 
-            <sec:authorize access="hasRole('ADMIN')">
+                String authUsername = AuthorityUtil.getAuthenticatedUserName();
+                Boolean authIsAdmin = AuthorityUtil.checkForAuthority(Role.ADMIN);
+            %>
+            <c:set var = "authUsername" scope = "page" value = "<%=authUsername%>"/>
+            <c:set var = "authIsAdmin" scope = "page" value = "<%=authIsAdmin%>"/>
+
+                <c:if test="${(authUsername == user.getSsoId()) || (authIsAdmin)}">
                 <button type="reset" onclick="cancelEdit()" class="edit-on btn btn-danger">Cancel</button>
                 <button onclick="submitEditUser('${user.getSsoId()}')" class="edit-on btn btn-success">Submit</button>
 
@@ -142,9 +155,47 @@
                                    class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit profile</a>
 
                             </span>
-            </sec:authorize>
+                </c:if>
         </div>
+        </c:if>
+    </div>
+    <div class="container ">
+        <c:if test="${user.getArticles().isEmpty()}" >
+            <div class="alert alert-danger">
+                <p>There are not any article</p>
+            </div>
+        </c:if>
+        <c:if test="${!user.getArticles().isEmpty()}">
+            <c:forEach items="${user.getArticles()}" var="articleItem">
+                <div class="panel panel-info">
+                    <div class="row">
+                        <div class="col-xs-1">
 
+                        </div>
+                        <div class="col-xs-9">
+
+                            <div class="article">
+                                <h3><a href="/articles/${articleItem.getId()}">${articleItem.getTitle()}</a></h3>
+
+                                <ul class="list-unstyled list-inline">
+                                    <li><i class="fa fa-calendar"></i> ${articleItem.getDate()}</li>
+                                    <li><a href="/users/${articleItem.getUser().getSsoId()}"><i
+                                            class="fa fa-user"></i> ${articleItem.getUser().getSsoId()}</a></li>
+                                </ul>
+
+                                <div class="article-content">
+
+                                    <pre>${articleItem.getContent()}</pre>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+            </c:forEach>
         </c:if>
     </div>
 </body>

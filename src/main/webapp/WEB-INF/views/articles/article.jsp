@@ -49,7 +49,7 @@
     <div class="alert-block">
 
     </div>
-    <div class="panel panel-info">
+    <div class="panel-body">
         <div class="row">
             <div class="col-xs-1">
 
@@ -78,6 +78,6 @@
         </div>
     </div>
 
-        </c:if>
+    </c:if>
 </body>
 </html>

@@ -1,23 +1,20 @@
 package org.roysez.app.controller;
 
-import org.roysez.app.enums.Role;
+import org.roysez.app.exception.UserNotFoundException;
 import org.roysez.app.model.User;
 import org.roysez.app.service.UserService;
+import org.roysez.app.util.AuthorityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,8 +33,15 @@ public class UserController {
      * Autowire by the implementation of {@link UserService},
      * defined in the Spring Container ;
      */
-    @Autowired
+
     private UserService userService;
+
+
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Return page with list of all user
@@ -66,8 +70,7 @@ public class UserController {
         User user = userService.findBySso(requestSsoId);
 
         if (user == null) {
-            model.addAttribute("error", "User with username: <i>" + requestSsoId + "</i> not found");
-            return "users/user_profile";
+            throw new UserNotFoundException(requestSsoId);
         }
 
         model.addAttribute("user", user);
@@ -85,7 +88,8 @@ public class UserController {
     @RequestMapping(value = "/{ssoId}", method = RequestMethod.PUT)
     public ResponseEntity editUserProfile(Model model, @PathVariable("ssoId") String requestSsoId,
                                           @RequestBody User newUserInformation) {
-        if (!checkForAuthority(Role.ADMIN)) {
+
+        if (!AuthorityUtil.checkForOwnerOfProfile(requestSsoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -112,7 +116,7 @@ public class UserController {
     @RequestMapping(value = "/{ssoId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteUserProfile(@PathVariable String ssoId) {
 
-        if (!checkForAuthority(Role.ADMIN)) {
+        if (!AuthorityUtil.checkForOwnerOfProfile(ssoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -145,6 +149,9 @@ public class UserController {
             return "users/user_profile";
         }
         User user = userService.findById(userId);
+
+        if(!AuthorityUtil.checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
+
         try {
             byte[] bytes = fileImage.getBytes();
             user.setUserProfilePhoto(bytes);
@@ -155,25 +162,5 @@ public class UserController {
         return "redirect:/users/" + user.getSsoId();
     }
 
-    /**
-     * Check authenticated user for having role which was requested ;
-     *
-     * @param roleToCheck - requested role ;
-     * @return Boolean value depending on the result ;
-     */
-    private Boolean checkForAuthority(Role roleToCheck) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth == null) {
-            return false;
-        }
-        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ROLE_" + roleToCheck)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

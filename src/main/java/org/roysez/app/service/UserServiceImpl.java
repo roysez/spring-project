@@ -35,12 +35,11 @@ public class UserServiceImpl implements UserService {
         userDao.updateUser(user);
     }
 
-    @Cacheable(value = "users", unless = "#result != null",key = "#sso")
+    @Cacheable(value = "users", condition = "#result != null",key = "#sso")
     public User findBySso(String sso) {
         return userDao.findBySSO(sso);
     }
 
-    @Cacheable(value = "users",unless = "#result != null",key = "#id")
     public User findById(int id) {
         return userDao.findById(id);
     }

@@ -35,4 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Article article) {
         articleDao.deleteArticle(article);
     }
+
+
+    public void updateArticle(Article article) {
+        articleDao.updateArticle(article);
+    }
 }

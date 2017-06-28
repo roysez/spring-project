@@ -1,13 +1,20 @@
 package org.roysez.app.controller;
 
+import org.roysez.app.exception.ArticleNotFoundException;
 import org.roysez.app.model.Article;
 import org.roysez.app.model.User;
 import org.roysez.app.service.ArticleService;
 import org.roysez.app.service.UserService;
+import org.roysez.app.util.AuthorityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,6 +35,8 @@ import java.util.List;
 @RequestMapping(value = "/articles")
 public class ArticleController {
 
+
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     /**
      * Autowire by the implementation of {@link ArticleService},
      * defined in the Spring Container ;
@@ -58,7 +67,7 @@ public class ArticleController {
         sdf.format(currentDate);
         article.setDate(currentDate);
 
-        User user = userService.findBySso(HomeController.getAuthenticatedUserName());
+        User user = userService.findBySso(AuthorityUtil.getAuthenticatedUserName());
         article.setUser(user);
         articleService.save(article);
         return "redirect:/articles/" + article.getId();
@@ -87,19 +96,76 @@ public class ArticleController {
      * @return name of JSP to redirect ;
      */
     @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
-    public String getArticlePage(Model model, @PathVariable String articleId) {
+    public String getArticlePage(Model model, @PathVariable String articleId)
+            throws ArticleNotFoundException {
 
         if (!articleId.matches("[0-9]+")) {
-            model.addAttribute("articleNotFound", "Article with id: <i>" + articleId + "</i> not found");
+            throw new ArticleNotFoundException(articleId);
         } else {
             Article article = articleService.findById(Integer.parseInt(articleId));
             if (article == null)
-                model.addAttribute("articleNotFound", "Article with id: <i>" + articleId + "</i> not found");
+                throw new ArticleNotFoundException(articleId);
             else
                 model.addAttribute("article", article);
         }
         return "articles/article";
     }
 
+
+    /**
+     * Handling request with JSON of new article data ;
+     *
+     * @param requestId  - unique Id of article ;
+     * @param newArticle - new article data ;
+     * @return {@link ResponseEntity} with some HTTP Status Code ;
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity editArticle(@PathVariable("id") String requestId,
+                                          @RequestBody Article newArticle) {
+
+
+        if (!requestId.matches("[0-9]+")) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        Article article = articleService.findById(Integer.parseInt(requestId));
+        if (article == null) {
+            logger.warn("Unable to edit. Article with id " + requestId + " not found");
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        newArticle.setId(article.getId());
+        articleService.updateArticle(newArticle);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * Method which handling request for deleting article entity ;
+     *
+     * @param articleId - unique Id of article ;
+     * @return {@link ResponseEntity} with some HTTP Status Code ;
+     */
+    @RequestMapping(value = "/{articleId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteArticle(@PathVariable String articleId) {
+
+
+        if (!articleId.matches("[0-9]+")) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        Article article = articleService.findById(Integer.getInteger(articleId));
+        if (article == null) {
+            logger.warn("Unable to delete. Article with id " + articleId + " not found");
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        articleService.deleteArticle(article);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }
