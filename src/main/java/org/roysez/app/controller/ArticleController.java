@@ -13,15 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller used for handling requests such as:
@@ -168,4 +166,16 @@ public class ArticleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
+    /**
+     * CODE OUTLINE, url will be changed
+     */
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Article> searchArticles(@RequestParam("content") String content){
+        return articleService.findAll().stream()
+                .filter(articleContent -> articleContent.getContent().contains(content))
+                .collect(Collectors.toList());
+
+    }
 }
