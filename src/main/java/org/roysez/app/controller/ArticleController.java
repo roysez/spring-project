@@ -1,5 +1,7 @@
 package org.roysez.app.controller;
 
+
+import org.apache.commons.lang3.StringUtils;
 import org.roysez.app.exception.ArticleNotFoundException;
 import org.roysez.app.model.Article;
 import org.roysez.app.model.User;
@@ -79,9 +81,23 @@ public class ArticleController {
      * @return name of JSP to redirect ;
      */
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public String getAllArticlesPage(Model model) {
+    public String getAllArticlesPage(Model model,
+                                     @RequestParam(required = false) String title,
+                                     @RequestParam(required = false) String content) {
         List<Article> entityList = articleService.findAll();
         Collections.sort(entityList);
+        if(title!=null){
+            entityList = entityList.stream()
+                    .parallel()
+                    .filter(article -> StringUtils.containsIgnoreCase(article.getTitle(),title))
+                    .collect(Collectors.toList());
+        }
+        if(content!=null){
+            entityList = entityList.stream()
+                    .parallel()
+                    .filter(article -> StringUtils.containsIgnoreCase(article.getContent(),content))
+                    .collect(Collectors.toList());
+        }
         model.addAttribute("articlesList", entityList);
         return "articles/articles";
     }
@@ -167,15 +183,15 @@ public class ArticleController {
     }
 
 
-    /**
+    /*
      * CODE OUTLINE, url will be changed
-     */
-    @RequestMapping(value = "/search",method = RequestMethod.GET)
+     *
+    @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public List<Article> searchArticles(@RequestParam("content") String content){
         return articleService.findAll().stream()
                 .filter(articleContent -> articleContent.getContent().contains(content))
                 .collect(Collectors.toList());
-
     }
+    */
 }

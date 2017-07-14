@@ -1,5 +1,6 @@
 package org.roysez.app.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.roysez.app.exception.UserNotFoundException;
 import org.roysez.app.model.User;
 import org.roysez.app.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller used for handling requests by the url '/users/*' ;
@@ -49,10 +51,16 @@ public class UserController {
      * @param model ;
      * @return jsp page;
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getAllUsersPage(Model model) {
+    @RequestMapping(value = {"/",""}, method = RequestMethod.GET)
+    public String getAllUsersPage(Model model,@RequestParam(required = false) String ssoId) {
 
         List<User> listOfAllUsers = userService.findAll();
+        if(ssoId!=null){
+            listOfAllUsers = listOfAllUsers.stream()
+                    .parallel()
+                    .filter(user -> StringUtils.containsIgnoreCase(user.getSsoId(),ssoId))
+                    .collect(Collectors.toList());
+        }
         model.addAttribute("listOfAllUsers", listOfAllUsers);
         return "users/users";
     }
