@@ -51,7 +51,8 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
-
+    @Autowired
+    private AuthorityUtil authorityUtil;
     /**
      * User to save given object of type {@link Article}
      *
@@ -147,7 +148,7 @@ public class ArticleController {
             logger.warn("Unable to edit. Article with id " + requestId + " not found");
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+        if (!authorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -174,7 +175,7 @@ public class ArticleController {
         if (article == null) {
             logger.warn("Unable to delete. Article with id " + articleId + " not found");
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+        } else if (!authorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
