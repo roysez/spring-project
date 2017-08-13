@@ -1,5 +1,7 @@
 package org.roysez.app.controller;
 
+
+import org.apache.commons.lang3.StringUtils;
 import org.roysez.app.exception.ArticleNotFoundException;
 import org.roysez.app.model.Article;
 import org.roysez.app.model.User;
@@ -13,15 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller used for handling requests such as:
@@ -51,7 +51,8 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
-
+    @Autowired
+    private AuthorityUtil authorityUtil;
     /**
      * User to save given object of type {@link Article}
      *
@@ -81,9 +82,23 @@ public class ArticleController {
      * @return name of JSP to redirect ;
      */
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public String getAllArticlesPage(Model model) {
+    public String getAllArticlesPage(Model model,
+                                     @RequestParam(required = false) String title,
+                                     @RequestParam(required = false) String content) {
         List<Article> entityList = articleService.findAll();
         Collections.sort(entityList);
+        if(title!=null){
+            entityList = entityList.stream()
+                    .parallel()
+                    .filter(article -> StringUtils.containsIgnoreCase(article.getTitle(),title))
+                    .collect(Collectors.toList());
+        }
+        if(content!=null){
+            entityList = entityList.stream()
+                    .parallel()
+                    .filter(article -> StringUtils.containsIgnoreCase(article.getContent(),content))
+                    .collect(Collectors.toList());
+        }
         model.addAttribute("articlesList", entityList);
         return "articles/articles";
     }
@@ -133,7 +148,7 @@ public class ArticleController {
             logger.warn("Unable to edit. Article with id " + requestId + " not found");
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+        if (!authorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -160,7 +175,7 @@ public class ArticleController {
         if (article == null) {
             logger.warn("Unable to delete. Article with id " + articleId + " not found");
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else if (!AuthorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
+        } else if (!authorityUtil.checkForOwnerOfProfile(article.getUser().getSsoId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -168,4 +183,16 @@ public class ArticleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
+    /*
+     * CODE OUTLINE, url will be changed
+     *
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Article> searchArticles(@RequestParam("content") String content){
+        return articleService.findAll().stream()
+                .filter(articleContent -> articleContent.getContent().contains(content))
+                .collect(Collectors.toList());
+    }
+    */
 }

@@ -1,5 +1,6 @@
 package org.roysez.app.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.roysez.app.exception.UserNotFoundException;
 import org.roysez.app.model.User;
 import org.roysez.app.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller used for handling requests by the url '/users/*' ;
@@ -36,6 +38,8 @@ public class UserController {
 
     private UserService userService;
 
+    @Autowired
+    private AuthorityUtil authorityUtil;
 
 
     @Autowired
@@ -49,10 +53,16 @@ public class UserController {
      * @param model ;
      * @return jsp page;
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getAllUsersPage(Model model) {
+    @RequestMapping(value = {"/",""}, method = RequestMethod.GET)
+    public String getAllUsersPage(Model model,@RequestParam(required = false) String ssoId) {
 
         List<User> listOfAllUsers = userService.findAll();
+        if(ssoId!=null){
+            listOfAllUsers = listOfAllUsers.stream()
+                    .parallel()
+                    .filter(user -> StringUtils.containsIgnoreCase(user.getSsoId(),ssoId))
+                    .collect(Collectors.toList());
+        }
         model.addAttribute("listOfAllUsers", listOfAllUsers);
         return "users/users";
     }
@@ -89,7 +99,7 @@ public class UserController {
     public ResponseEntity editUserProfile(Model model, @PathVariable("ssoId") String requestSsoId,
                                           @RequestBody User newUserInformation) {
 
-        if (!AuthorityUtil.checkForOwnerOfProfile(requestSsoId)) {
+        if (!authorityUtil.checkForOwnerOfProfile(requestSsoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -116,7 +126,7 @@ public class UserController {
     @RequestMapping(value = "/{ssoId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteUserProfile(@PathVariable String ssoId) {
 
-        if (!AuthorityUtil.checkForOwnerOfProfile(ssoId)) {
+        if (!authorityUtil.checkForOwnerOfProfile(ssoId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -150,7 +160,7 @@ public class UserController {
         }
         User user = userService.findById(userId);
 
-        if(!AuthorityUtil.checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
+        if(!authorityUtil.checkForOwnerOfProfile(user.getSsoId())) return "account/access_denied";
 
         try {
             byte[] bytes = fileImage.getBytes();

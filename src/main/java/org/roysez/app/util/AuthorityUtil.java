@@ -4,6 +4,7 @@ package org.roysez.app.util;
 import org.roysez.app.enums.Role;
 import org.roysez.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +17,8 @@ import java.util.Collection;
 public class AuthorityUtil {
 
     @Autowired
-    private static UserService userService;
+    @Qualifier("userService")
+    private  UserService userService;
 
     /**
      * Static method  for returning SsoId of authenticated user ;
@@ -55,7 +57,7 @@ public class AuthorityUtil {
         return false;
     }
 
-    public  static Boolean checkForOwnerOfProfile(String ssoId){
+    public   Boolean checkForOwnerOfProfile(String ssoId){
 
         return checkForAuthority(Role.ADMIN) ||
                 ((UserDetails)SecurityContextHolder.getContext()
