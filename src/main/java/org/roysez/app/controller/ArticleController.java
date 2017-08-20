@@ -93,12 +93,12 @@ public class ArticleController {
                     .filter(article -> StringUtils.containsIgnoreCase(article.getTitle(),title))
                     .collect(Collectors.toList());
         }
-        if(content!=null){
-            entityList = entityList.stream()
-                    .parallel()
-                    .filter(article -> StringUtils.containsIgnoreCase(article.getContent(),content))
-                    .collect(Collectors.toList());
-        }
+//        if(content!=null){
+//            entityList = entityList.stream()
+//                    .parallel()
+//                    .filter(article -> StringUtils.containsIgnoreCase(article.getContent(),content))
+//                    .collect(Collectors.toList());
+//        }
         model.addAttribute("articlesList", entityList);
         return "articles/articles";
     }

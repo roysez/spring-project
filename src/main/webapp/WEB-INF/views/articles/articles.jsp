@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<c:url value='/static/css/article.css' />">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="<c:url value="/static/js/jquery-3.2.1.min.js"/>"></script>
+    <script src="<c:url value="/static/js/home.js"/> "></script>
 </head>
 <body>
 <div class="navbar navbar-default navbar-static-top">
@@ -20,6 +21,16 @@
                 <!--            Пункти меню-->
                 <li><a href="<c:url value="/users/"/>">Users</a></li>
             </ul>
+            <ul class="nav navbar-nav ">
+                <li><a href="#search">Search</a></li>
+            </ul>
+            <div id="search">
+                <button type="button" class="close">×</button>
+                <form action="" method="get">
+                    <input type="search" value="" name="title" placeholder="type keywords here."  />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="isAuthenticated()">
                     <li><a href="/users/<sec:authentication property="principal.username"/>">Hello,<sec:authentication
