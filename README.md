@@ -137,4 +137,21 @@ Main functionality, which will be implemented
 </table>
 
 <hr>
+
+### Screenshots
+
+![ScreenShot](/screenshots/post-article-scr.png)
+
+![ScreenShot](/screenshots/login-scr.png)
+
+![ScreenShot](/screenshots/sign-up-scr.png)
+
+![ScreenShot](/screenshots/user-profile-scr.png)
+
+![ScreenShot](/screenshots/article-page-scr.png)
+
+![ScreenShot](/screenshots/users-scr.png)
+
+![ScreenShot](/screenshots/seacrh-scr.png)
+
 <i>© Roysez</i>
