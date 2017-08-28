@@ -75,7 +75,8 @@
                     <div class="col-md-3 col-lg-3" align="center">
                         <div class="avatar-holder">
                             <img class="avatar backup-picture"
-                                 src="/image/${user.getId()}" ></div>
+                                 src="/image/${user.getId()}"
+                                 onerror="javascript:this.src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ6afIs-1S3GXUawbA_UeVHFwO8niO_4O7iEll3Uh8o_FNejgiC'"></div>
 
                     </div>
 
