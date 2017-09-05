@@ -28,7 +28,7 @@
                 <button type="button" class="close">×</button>
                 <form action="" method="get">
                     <input type="search" value="" name="title" placeholder="type keywords here."  />
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-primary">Search(Articles)</button>
                 </form>
             </div>
             <ul class="nav navbar-nav navbar-right">

@@ -139,6 +139,7 @@ Main functionality, which will be implemented
 <hr>
 
 ### Screenshots
+<img src="/screenshots/post-article-scr.png"></img>
 
 ![ScreenShot](/screenshots/post-article-scr.png)
 

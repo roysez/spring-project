@@ -28,7 +28,7 @@
                     <button type="button" class="close">×</button>
                     <form action="" method="get">
                         <input type="search" value="" name="ssoId" placeholder="type part of username here."  />
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-primary">Search(Users)</button>
                     </form>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
