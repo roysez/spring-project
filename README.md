@@ -22,9 +22,6 @@ adding loads of new functions to encourage more users.
 #### Database
 * MySQL
 
-#### RUN
-* Delpoy from Maven: mvn clean package jetty:run
-
 
 Main functionality, which will be implemented
 ===========
