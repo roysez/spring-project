@@ -22,6 +22,7 @@ adding loads of new functions to encourage more users.
 #### Database
 * MySQL
 
+
 Main functionality, which will be implemented
 ===========
 <table>
@@ -141,7 +142,7 @@ Main functionality, which will be implemented
 ### Screenshots
 <img src="/screenshots/post-article-scr.png"></img>
 
-![ScreenShot](/screenshots/post-article-scr.png)
+<img src="/screenshots/post-article-scr.png"></img>
 
 ![ScreenShot](/screenshots/login-scr.png)
 
